@@ -1,0 +1,191 @@
+.title-header {
+  background-color: white;
+  border-radius: 10px;
+  margin: 20px;
+  padding-bottom: 20px;
+  box-shadow: 1px 1px 4px rgb(228, 228, 228);
+
+  .btn {
+    margin-right: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .response {
+    background-color: rgb(255, 230, 121);
+    border-radius: 5px;
+
+    h1 {
+      margin: 10px;
+    }
+
+    pre {
+      padding: 15px;
+    }
+  }
+}
+.count{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.primary {
+  margin: 10px;
+}
+
+.text {
+  color: white;
+}
+
+.data-grid {
+  padding: 20px;
+}
+
+.btn-end {
+  text-align: -webkit-right;
+}
+
+.space {
+  margin: 30px 0;
+}
+
+.empty {
+  margin: 0 30px;
+}
+
+.head {
+  padding: 5px;
+  text-align: center;
+  border-top-left-radius: 10px 10px;
+  border-top-right-radius: 10px 10px;
+  background-color: #3f81aa;
+}
+
+.datagrid {
+  margin: 10px 10px;
+
+
+}
+
+.white-text {
+  color: white;
+}
+
+.green-text {
+  color: green;
+}
+// .card{
+//   padding: 20px;
+//   margin: 20px;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-evenly;
+// }
+
+.buttons {
+
+  margin: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 2px 3px 4px #bfbfbf;
+
+}
+
+.hovers{
+transition: 0.5s;}
+.hovers:hover{
+  background-color: #5856d6;
+  color: white;
+box-shadow: 5px 5px 5px #8483f0;
+}
+
+.text1 {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 10px 0;
+}
+.text2{
+  padding-left: 5%;
+}
+
+.text-border{
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.card-counter{
+  box-shadow: 2px 2px 10px #DADADA;
+  margin: 5px;
+  padding: 20px 10px;
+  background-color: #fff;
+  height: 100px;
+  border-radius: 5px;
+  transition: .3s linear all;
+}
+
+.card-counter:hover{
+  box-shadow: 4px 4px 20px #DADADA;
+  transition: .3s linear all;
+}
+
+.card-counter.primary{
+  background-color: #007bff;
+  color: #FFF;
+}
+
+.card-counter.danger{
+  background-color: #ef5350;
+  color: #FFF;
+}  
+
+.card-counter.success{
+  background-color: #66bb6a;
+  color: #FFF;
+}  
+
+.card-counter.info{
+  background-color: #26c6da;
+  color: #FFF;
+  transition: .3s;
+  
+}  
+.card-counter.info:hover{
+  background-color: #5ee8fa;
+  color: #f8f8f8;
+
+}
+
+.card-counter i{
+  font-size: 5em;
+  opacity: 0.2;
+}
+
+.card-counter .count-numbers{
+  position: absolute;
+  right: 35px;
+  top: 20px;
+  font-size: 32px;
+  display: block;
+}
+
+.card-counter .count-name{
+  position: absolute;
+  right: 35px;
+  top: 65px;
+  font-style: italic;
+  text-transform: capitalize;
+  opacity: 0.5;
+  display: block;
+  font-size: 18px;
+}
+
+.img{
+  display: flex;
+  justify-content: space-around;
+}
+
+.empty{
+  margin: 25px;
+}

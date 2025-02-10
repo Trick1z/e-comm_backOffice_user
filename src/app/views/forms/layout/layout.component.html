@@ -1,0 +1,146 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+/>
+<div class="title-header" style="box-shadow: 2px 3px 4px #d3d3d3">
+  <div class="empty" style="margin: 20px"></div>
+
+  <div class="buttons">
+    <div class="head">
+      <h4 class="text-border">รายชื่อ นักศึกษา</h4>
+    </div>
+    <div class="btn">
+      <div class="temp"></div>
+      <button (click)="navTo()" cButton color="primary" class="text" style="margin-right: 10px">
+        เพิ่มรายชื่อนักศึกษา
+      </button>
+    </div>
+
+    <div class="empty"></div>
+    <!-- datagrid -->
+    <div class="datagrid" style="padding: 0 0 20px 0">
+      <div class="datagrid">
+        <div class="cat-list">
+          <dx-data-grid
+            id="gridContainer"
+            [dataSource]="studentData"
+            [showBorders]="true"
+          >
+            <dxo-search-panel [visible]="false"></dxo-search-panel>
+            <dxo-editing
+              mode="row"
+              [allowAdding]="false"
+              [allowUpdating]="false"
+              [allowDeleting]="false"
+            >
+            </dxo-editing>
+            <dxo-editing mode="row"> </dxo-editing>
+            <dxi-column
+              dataField="STUDENT_ID"
+              caption="ID"
+              alignment="center"
+              [width]="50"
+            >
+            </dxi-column>
+            <dxi-column
+              dataField="STUDENT_CODE"
+              caption="รหัสนักศึกษา"
+              alignment="center"
+              [width]="200"
+            >
+            </dxi-column>
+            <dxi-column
+              dataField="STUDENT_NAME"
+              caption="ชื่อนักศึกษา"
+              alignment="center"
+              [width]="200"
+            ></dxi-column>
+
+            <dxi-column
+              dataField="STUDENT_MAJOR"
+              caption="สาขา"
+              alignment="center"
+            ></dxi-column>
+
+            <dxi-column
+              dataField="STUDENT_FACULTY"
+              caption="คณะ"
+              alignment="center"
+            ></dxi-column>
+
+            <!-- <dxi-column dataField="STUDENT_BAND" caption="ยี้ห้อ" [width]="70"></dxi-column> -->
+            <div
+              style="display: flex"
+              *dxTemplate="let data of 'cellTemplateEdit'"
+            >
+              <button
+                cButton
+                color="secondary"
+                class="white-text"
+                style="margin-right: 5px"
+                (click)="onEditPopup(data.values)"
+              >
+                แก้ไข
+              </button>
+
+              <button cButton color="danger" class="white-text"
+              (click)="onDataDelete(data.values)">ลบ</button>
+            </div>
+            <dxi-column
+              [width]="130"
+              cellTemplate="cellTemplateEdit"
+            ></dxi-column>
+
+            <dxo-paging [pageSize]="20"></dxo-paging>
+            <dxo-search-panel [visible]="true"></dxo-search-panel>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty"></div>
+  </div>
+
+  <dx-popup
+    [width]="600"
+    [height]="300"
+    [hideOnOutsideClick]="false"
+    [showCloseButton]="false"
+    [(visible)]="StudentEditPopup"
+    title="แก้ไข ครุภัณฑ์"
+  >
+    <div class="">
+      <dx-form [formData]="EditForms" [colCount]="6">
+        <dxi-item [colSpan]="3" dataField="STUDENT_CODE">
+          <dxo-label template="รหัสนักศึกษา"></dxo-label>
+        </dxi-item>
+        <dxi-item [colSpan]="3" dataField="STUDENT_MAJOR">
+          <dxo-label template="สาขา"></dxo-label>
+        </dxi-item>
+        <dxi-item [colSpan]="3" dataField="STUDENT_FACULTY">
+          <dxo-label template="คณะ"></dxo-label>
+        </dxi-item>
+
+        <dxi-item [colSpan]="3" dataField="STUDENT_NAME">
+          <dxo-label template="ชื่อนักศึกษา"></dxo-label>
+        </dxi-item>
+
+        
+      </dx-form>
+    </div>
+
+    <div
+      class=""
+      style="display: flex; justify-content: center; margin: 30px 0"
+    >
+      <button cButton class="white-text" color="success" style="margin: 0 20px"
+      (click)="onEditSubmit()">
+        บันทึก
+      </button>
+      <button cButton class="cancle-btn white-text" color="danger"
+      (click)="onEditCancle()">
+        ยกเลิก
+      </button>
+    </div>
+  </dx-popup>
+</div>

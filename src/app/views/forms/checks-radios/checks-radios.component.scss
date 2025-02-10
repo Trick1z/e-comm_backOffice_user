@@ -1,0 +1,54 @@
+@import "node_modules/devextreme/dist/css/dx.light.css";
+; // Import DevExtreme styles if not done already
+
+.card {
+  padding: 10px 20px;
+
+  h1 {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.float-left {
+  display: flex;
+  justify-content: right;
+}
+
+.white-text {
+  color: white;
+}
+
+.empty {
+  margin: 30px;
+}
+
+
+.head-name {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background-color: #3f81aa;
+  color: white;
+  border-radius: 10px;
+  position: relative;
+  top:-25px
+
+}
+
+.category-card{
+  box-shadow: 4px 4px 4px #b2b2b2;
+  border-radius: 10px;
+}
+.status-card{
+  box-shadow: 4px 4px 4px #b2b2b2;
+  border-radius: 10px;
+}
+
+
+// For mobile (small screens)
+// @media screen and (max-width: 412px) {
+//   .dx-datagrid {
+//     font-size: 12px;
+//   }
+// }

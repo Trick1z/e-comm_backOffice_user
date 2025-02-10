@@ -1,0 +1,126 @@
+<div class="container">
+  <div class="category">
+    <h1>Category Table</h1>
+    <button [cModalToggle]="categoryModal.id" class="btn btn-success" style="margin: 20px 5px; color: white">
+      Add category
+    </button>
+
+    <table class="table" >
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Category Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of category_data; let i = index">
+          <td>{{ item.category_id }}</td>
+          <td>{{ item.category_name }}</td>
+          <td>{{ item.category_desc }}</td>
+          <td>
+            <button class="btn btn-info" style="margin: 0 5px; color: white">
+              Edit
+            </button>
+            <button (click)="ondelete('category',item.category_id)" class="btn btn-danger" style="margin: 0 5px; color: white">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+
+  <!-- status -->
+
+  <div class="Status" style="margin-top: 40px;">
+    <h1>Status Table</h1>
+    <button class="btn btn-success" style="margin: 20px 5px; color: white">
+      Add Status
+    </button>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Status Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of status_data; let i = index">
+          <td>{{ item.status_id }}</td>
+          <td>{{ item.status_name }}</td>
+          <td>{{ item.status_desc }}</td>
+          <td>
+            <button class="btn btn-info" style="margin: 0 5px; color: white">
+              Edit
+            </button>
+            <button (click)="ondelete('status',item.category_id)" class="btn btn-danger" style="margin: 0 5px; color: white">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+<!-- add -->
+<!-- category -->
+
+
+<div class="category-model">
+
+    <c-modal #categoryModal backdrop="static" id="categoryModal">
+        <c-modal-header>
+          <h5 cModalTitle>Add Category</h5>
+          <button [cModalToggle]="categoryModal.id" cButtonClose></button>
+        </c-modal-header>
+        <c-modal-body>
+            <div class="form">
+                <form cForm>
+                    <div class="mb-3">
+                      <label cLabel for="categoryForm">category name</label>
+                      <input [(ngModel)]="addForm.name"
+                      [ngModelOptions]="{standalone: true}"
+                       cFormControl
+                             id="categoryForm"
+                             placeholder="category name"
+                             type="text"
+                             
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label cLabel for="exampleFormControlTextarea1">Description</label>
+                      <textarea [(ngModel)]="addForm.desc"
+                      [ngModelOptions]="{standalone: true}"
+                       cFormControl id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  </form>
+                  
+            </div>
+        </c-modal-body>
+        <c-modal-footer>
+          <button [cModalToggle]="categoryModal.id" cButton color="secondary">
+            Close
+          </button>
+          <button [cModalToggle]="categoryModal.id" cButton color="primary"  (click)="onSubmit('category')">Submit</button>
+        </c-modal-footer>
+      </c-modal>
+
+
+</div>

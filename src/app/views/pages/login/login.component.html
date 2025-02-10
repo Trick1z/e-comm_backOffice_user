@@ -1,0 +1,81 @@
+<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+  <c-container breakpoint="md">
+    <c-row class="justify-content-center">
+      <c-col lg="5" xl="5">
+        <c-card-group>
+          <c-card class="p-4">
+            <c-card-body>
+              <form cForm>
+                <h1>เข้าสู่ระบบ</h1>
+                <p class="text-body-secondary">ลงชื่อเข้าสู่ระบบ</p>
+                <!-- <c-input-group class="mb-3">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                  </span>
+                  <input [(ngModel)]="loginForm.username" autoComplete="username" cFormControl placeholder="Username" />
+                </c-input-group>
+                <c-input-group class="mb-4">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <input
+                    autoComplete="current-password"
+                    cFormControl
+                    placeholder="Password"
+                    type="password"
+                  />
+                </c-input-group> -->
+
+
+                <form cForm>
+                  <div class="mb-3">
+                    <label cLabel for="exampleFormControlInput1">Username</label>
+                    <input [(ngModel)]="loginForm.username" [ngModelOptions]="{standalone: true}" cFormControl
+                           id="exampleFormControlInput1"
+                           placeholder="Username"
+                           type="text"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label cLabel for="exampleFormControlInput1">Email</label>
+                    <input cFormControl 
+                    [(ngModel)]="loginForm.password" [ngModelOptions]="{standalone: true}"
+                           id="exampleFormControlInput1"
+                           placeholder="example@email.com"
+                           type="email"
+                    />
+                  </div>
+                  
+                </form>
+                <c-row>
+                  <c-col xs="6">
+                    <button (click)="loginOnSubmit()" cButton class="px-4" color="primary" >
+                      Login
+                    </button>
+                  </c-col>
+                  <c-col xs="6">
+                    <button (click)="nav_to('register')" cButton class="px-4" color="primary" >
+                      Register
+                    </button>
+                  </c-col>
+                </c-row>
+              </form>
+            </c-card-body>
+          </c-card>
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
+
+
+<!-- 
+<div class="container">
+  <div class="form-groups">
+    <div class="head">
+      <h4>login</h4>
+
+
+    </div>
+  </div> 
+</div> -->

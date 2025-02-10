@@ -1,0 +1,179 @@
+<div class="category-card">
+  
+  <div class="card">
+    <div class="header head-name">
+      <h1>รายชื่อหมวดหมู่</h1>
+    </div>
+    <div class="btn float-left">
+      <button cButton color="primary" (click)="OnAddCate()">เพิ่มหมวดหมู่</button>
+    </div>
+    <!-- datagrid -->
+    <div class="cat-list">
+      <dx-data-grid id="gridContainer" [dataSource]="categoryData" [showBorders]="true">
+        <dxo-editing mode="row" [allowAdding]="false" [allowUpdating]="false" [allowDeleting]="false">
+        </dxo-editing>
+        <dxo-editing mode="row">
+        </dxo-editing>
+        <dxi-column dataField="CATEGORY_ID" [width]="100" [caption]="'ID'">
+        </dxi-column>
+        <dxi-column dataField="CATEGORY_NAME" [width]="160" [caption]="'ชื่อ'"></dxi-column>
+        <dxi-column dataField="CATEGORY_DESCRIPTION" [caption]="'คำอธิบาย'"></dxi-column>
+        <div *dxTemplate="let data of 'cellTemplateDelte'">
+          <button cButton color="secondary"
+            (click)="onCategoryEditPopup(data.values)"
+            class="white-text" style="margin-right: 10px;">แก้ไข</button>
+          <!-- <button cButton color="secondary"
+            (click)="onCategoryEditPopup(data.component.pageIndex() * data.component.pageSize() + data.rowIndex)"
+            class="white-text" style="margin-right: 10px;">แก้ไข</button> -->
+          <button cButton color="danger"
+            (click)="openCategoryDelete(data.values)"
+            class="white-text" >ลบ</button>
+        </div>
+        <dxi-column [width]="130" cellTemplate="cellTemplateDelte"></dxi-column>
+        <dxo-paging [pageSize]="100"></dxo-paging>
+        <dxo-search-panel [visible]="true"></dxo-search-panel>        
+     </dx-data-grid>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP -->
+<!-- Add Category  -->
+
+<dx-popup [width]="420" [height]="360" [hideOnOutsideClick]="false" [showCloseButton]="false"
+  [(visible)]="addCategoryPopup" title="เพิ่มหมวดหมู่">
+
+  <div class="">
+    <dx-form [formData]="addCateForm" [colCount]="4">
+
+      <dxi-item [colSpan]="4" dataField="CATEGORY_NAME">
+        <dxo-label template="ชื่อ หมวดหมู่"></dxo-label>
+      </dxi-item>
+
+      <dxi-item [colSpan]="4" editorType="dxTextArea" dataField="CATEGORY_DESCRIPTION">
+        <dxo-label template="คำอธิบาย หมวดหมู่"></dxo-label>
+      </dxi-item>
+
+    </dx-form>
+  </div>
+
+  <div class="" style="display: flex; ; justify-content: center; margin: 70px 0 0 0;">
+    <button cButton class="white-text" color="success" style="margin: 0 20px;"
+      (click)="categoryOnSubmit()">บันทึก</button>
+    <button cButton class="cancle-btn white-text" color="danger" (click)="categoryOnClose()">ยกเลิก</button>
+  </div>
+</dx-popup>
+
+<!-- Edit Category  v -->
+
+<dx-popup [width]="420" [height]="360" [hideOnOutsideClick]="false" [showCloseButton]="false"
+  [(visible)]="editCategoryPopup" title="แก้ไขหมวดหมู่">
+
+  <div class="">
+    <dx-form [formData]="editCateForm" [colCount]="4">
+
+      <dxi-item [colSpan]="4" dataField="CATEGORY_NAME">
+        <dxo-label template="ชื่อ หมวดหมู่"></dxo-label>
+      </dxi-item>
+
+      <dxi-item [colSpan]="4" editorType="dxTextArea" dataField="CATEGORY_DESCRIPTION">
+        <dxo-label template="คำอธิบาย หมวดหมู่"></dxo-label>
+      </dxi-item>
+
+    </dx-form>
+  </div>
+
+  <div class="" style="display: flex; ; justify-content: center; margin: 70px 0 0 0;;">
+    <button cButton class="white-text" color="success" style="margin: 0 20px;"
+      (click)="categoryOnEditSubmit()">บันทึก</button>
+    <button cButton class="cancle-btn white-text" color="danger" (click)="categoryOnEditClose()">ยกเลิก</button>
+  </div>
+</dx-popup>
+
+
+<!-- Edit Category ^ -->
+
+
+<div class="empty"></div>
+
+<!-- status card  -->
+<div class="status-card">
+  
+  <div class="card">
+    <div class="header head-name">
+      <h1>รายชื่อสถานะ</h1></div>
+    <div class="btn float-left">
+      <button cButton color="primary" (click)="OnAddStatus()">เพิ่มสถานะ</button>
+    </div>
+    <!-- datagrid -->
+    <div class="cat-list">
+      <dx-data-grid  id="gridContainer" [dataSource]="statusData" [showBorders]="true">
+        <dxo-editing mode="row" [allowAdding]="false" [allowUpdating]="false" [allowDeleting]="false">
+        </dxo-editing>
+        <dxo-editing mode="row">
+        </dxo-editing>
+        <dxi-column dataField="STATUS_ID" [width]="100" [caption]="'ID'">
+        </dxi-column>
+        <dxi-column dataField="STATUS_NAME" [width]="160" [caption]="'ชื่อ'"></dxi-column>
+        <dxi-column dataField="STATUS_DESCRIPTION" [caption]="'คำอธิบาย'"></dxi-column>
+        <div *dxTemplate="let data of 'cellTemplateDelte'">
+          <button cButton color="secondary"
+            (click)="onStatusEditPopup(data.values)"
+            class="white-text" style="margin-right: 10px;">แก้ไข</button>
+          
+          <button cButton color="danger"
+            (click)="openStatusDelete(data.values)"
+            class="white-text" >ลบ</button>
+        </div>
+        <dxi-column [width]="130" cellTemplate="cellTemplateDelte"></dxi-column>
+        <dxo-paging [pageSize]="100"></dxo-paging>
+        <dxo-search-panel [visible]="true"></dxo-search-panel>        
+
+      </dx-data-grid>
+    </div>
+  </div>
+</div>
+
+
+<!-- POPUP -->
+<!-- Add STATUS  -->
+
+<dx-popup [width]="420" [height]="360" [hideOnOutsideClick]="false" [showCloseButton]="false"
+  [(visible)]="addStatusPopup" title="เพิ่มสถานะ">
+  <div class="">
+    <dx-form [formData]="addStatusForm" [colCount]="4">
+      <dxi-item [colSpan]="4" dataField="STATUS_NAME">
+        <dxo-label template="ชื่อ สถานะ"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="4" editorType="dxTextArea" dataField="STATUS_DESCRIPTION">
+        <dxo-label template="คำอธิบาย สถานะ"></dxo-label>
+      </dxi-item>
+    </dx-form>
+  </div>
+  <div class="" style="display: flex; ; justify-content: center;     margin: 70px 0 0 0;">
+    <button cButton class="white-text" color="success" style="margin: 0 20px;"
+      (click)="statusOnSubmit()">บันทึก</button>
+    <button cButton class="cancle-btn white-text" color="danger" (click)="statusOnClose()">ยกเลิก</button>
+  </div>
+</dx-popup>
+
+<!-- Edit Status -->
+
+<dx-popup [width]="420" [height]="360" [hideOnOutsideClick]="false" [showCloseButton]="false"
+[(visible)]="EditStatusPopup" title="แก้ไขสถานะ">
+<div class="">
+  <dx-form [formData]="editStatusForm" [colCount]="4">
+    <dxi-item [colSpan]="4" dataField="STATUS_NAME">
+      <dxo-label template="STATUS Name"></dxo-label>
+    </dxi-item>
+    <dxi-item [colSpan]="4" editorType="dxTextArea" dataField="STATUS_DESCRIPTION">
+      <dxo-label template="STATUS Description"></dxo-label>
+    </dxi-item>
+  </dx-form>
+</div>
+<div class="" style="display: flex; ; justify-content: center; margin: 70px 0 0 0;">
+  <button cButton class="white-text" color="success" style="margin: 0 20px;"
+    (click)="EditStatusOnSubmit()">บันทึก</button>
+  <button cButton class="cancle-btn white-text" color="danger" (click)="StatusOnEditClose()">ยกเลิก</button>
+</div>
+</dx-popup>

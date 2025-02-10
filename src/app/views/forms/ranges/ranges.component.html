@@ -1,0 +1,187 @@
+<!-- <link
+  href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/> -->
+<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<!------ Include the above in your HEAD tag ---------->
+
+<!-- <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+/> -->
+<div class="holder">
+  <div class="secCard">
+    <div class="firstCard">
+      <div class="txt-card" style="position: relative; top: -30px">
+        <h3>ประวัติการยืม ครุภัณฑ์</h3>
+      </div>
+    </div>
+
+    <div class="empty"></div>
+    <!-- 
+    <div class="count-card">
+      <c-card class="mb-3" style="width: 33%" *ngFor="let item of counts; index as i">
+        <c-row class="g-0">
+
+          <c-card-body cCol [md]="8">
+            <h5 cCardTitle><span>{{displayCardsName(item.name)}}</span></h5>
+            <h1>{{item.value}}</h1>
+          </c-card-body>
+        </c-row>
+      </c-card>
+    </div> -->
+
+    <div class="container">
+      <!-- <div class="row">
+        <div class="col-md-3" *ngFor="let item of counts,index as i">
+          <div class="card-counter success" style="box-shadow: 5px 5px 4px #a9a9a9;">
+            <i class="fa fa-database"></i>
+            <span class="count-numbers">{{item.value}}</span>
+            <span class="count-name">{{item.key}}</span>
+          </div>
+        </div>
+      </div> -->
+      <c-row>
+        <c-col md="12" xl="4" *ngFor="let item of counts; index as i">
+          <c-widget-stat-b
+            #widgetStatB1inv="cWidgetStatB"
+            [title]="item.key"
+            class="mb-4 primary"
+            color="primary"
+            value="{{item.value}}"
+            inverse
+          >
+
+            <!-- <h1>{{ item.value }}</h1> -->
+          </c-widget-stat-b>
+
+          
+        </c-col>
+      </c-row>
+      <div class="empty" style="margin: 1rem 0"></div>
+    </div>
+    <div class="data-table">
+      <dx-data-grid
+        id="gridContainer"
+        [dataSource]="borrowForm"
+        [showBorders]="true"
+      >
+        <dxo-search-panel [visible]="false"></dxo-search-panel>
+        <dxo-editing
+          mode="row"
+          [allowAdding]="false"
+          [allowUpdating]="false"
+          [allowDeleting]="false"
+        >
+        </dxo-editing>
+        <dxo-editing mode="row"> </dxo-editing>
+        <!-- (click)="addProductToArr((data.component.pageIndex() * data.component.pageSize() + data.rowIndex) , 'A' ) -->
+        <dxi-column
+          dataField="LIST_ID"
+          caption="ID"
+          alignment="center"
+          [width]="50"
+        ></dxi-column>
+
+        <dxi-column
+          dataField="STUDENT_ID"
+          caption="รหัสนักศึกษา"
+          alignment="center"
+          cellTemplate="cellStudentCode"
+          [width]="120"
+        ></dxi-column>
+        <div *dxTemplate="let cell of 'cellStudentCode'">
+          <div class="">
+            <span>{{ displayStudentData(cell.data.STUDENT_ID, "code") }}</span>
+          </div>
+        </div>
+
+        <dxi-column
+          dataField="STUDENT_ID_1"
+          caption="ชื่อ"
+          alignment="center"
+          cellTemplate="cellTemplateStatus"
+          [width]="150"
+        ></dxi-column>
+        <div *dxTemplate="let cell of 'cellTemplateStatus'">
+          <div class="">
+            <span>{{ displayStudentData(cell.data.STUDENT_ID, "name") }}</span>
+          </div>
+        </div>
+
+        <dxi-column
+          dataField="PRODUCT_ID"
+          caption="ชื่อครุภัณฑ์"
+          alignment="center"
+          cellTemplate="cellProductStatus"
+        ></dxi-column>
+        <div *dxTemplate="let cell of 'cellProductStatus'">
+          <div class="">
+            <span>{{ displayproduct(cell.data.PRODUCT_ID, "name") }}</span>
+          </div>
+        </div>
+
+        <dxi-column
+          dataField="PRODUCT_ID_1"
+          caption="Serial Number"
+          alignment="center"
+          cellTemplate="cellSerialProductStatus"
+        ></dxi-column>
+        <div *dxTemplate="let cell of 'cellSerialProductStatus'">
+          <div class="">
+            <span>{{ displayproduct(cell.data.PRODUCT_ID, "serial") }}</span>
+          </div>
+        </div>
+
+        <dxi-column
+          dataField="PRODUCT_ID_3"
+          caption="รหัสครุภัณฑ์"
+          alignment="center"
+          cellTemplate="celleqProductStatus"
+        ></dxi-column>
+        <div *dxTemplate="let cell of 'celleqProductStatus'">
+          <div class="">
+            <span>{{ displayproduct(cell.data.PRODUCT_ID, "qe") }}</span>
+          </div>
+        </div>
+
+        <dxi-column
+          dataField="CREATE_DATE"
+          caption="วันที่ยืม"
+          alignment="center"
+          cellTemplate="cellCreate_date"
+        ></dxi-column>
+        <div *dxTemplate="let cell of 'cellCreate_date'">
+          <div class="">
+            <span>{{ convertTime(cell.data.CREATE_DATE) }}</span>
+          </div>
+        </div>
+        <dxi-column
+          dataField="UPDATE_DATE"
+          caption="วันที่คืน"
+          alignment="center"
+          cellTemplate="cellUpdate_date"
+        ></dxi-column>
+        <div *dxTemplate="let cell of 'cellUpdate_date'">
+          <div class="">
+            <span>{{ convertTime(cell.data.UPDATE_DATE) }}</span>
+          </div>
+        </div>
+
+        <!-- <dxi-column dataField="CREATE_DATE" caption="วันที่ยืม" alignment="center" [width]="160"></dxi-column>
+        <dxi-column dataField="UPDATE_DATE" caption="วันที่คืน" alignment="center" [width]="160"></dxi-column> -->
+
+        <!-- <dxo-paging [pageSize]="100"></dxo-paging> -->
+
+        <dxo-paging [pageSize]="20"></dxo-paging>
+        <dxo-pager
+          [showPageSizeSelector]="true"
+          [allowedPageSizes]="[15, 20, 50]"
+        ></dxo-pager>
+        <!-- <dxo-search-panel [visible]="true"></dxo-search-panel>         -->
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

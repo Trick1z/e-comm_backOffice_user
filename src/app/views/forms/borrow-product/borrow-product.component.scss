@@ -1,0 +1,23 @@
+.card-groups{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);    
+
+    .card{
+        padding: 10px;
+        margin: 0 10px 10px 0;
+        display: flex;
+        justify-content: flex-start;
+
+        box-shadow: 3px 2px 2px 2px rgb(185, 185, 185);
+        .text-area{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+        }
+
+        transition: 1s;
+    }
+    .card:hover{
+        background-color: #3f81aa;
+        color: white;
+    }
+}

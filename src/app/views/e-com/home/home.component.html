@@ -1,0 +1,260 @@
+<div class="container">
+  <div class="product-info">
+    <div class="texts">
+      <h1>product-info</h1>
+    </div>
+
+    <div class="btn-groups">
+      <div class="add">
+        <button cButton color="primary" [cModalToggle]="staticBackdropModal.id">
+          Add Products
+        </button>
+      </div>
+    </div>
+
+    <div class="card-groups">
+      <div
+        class="cards flex-center"
+        *ngFor="let item of products_data; let i = index"
+      >
+        <c-card class="flex-center">
+          <img
+            cCardImg="top"
+            class="img"
+            [src]="getProductImage(item.products_id)"
+            *ngIf="getProductImage(item.products_id); else defaultImage"
+          />
+
+          <ng-template #defaultImage>
+            <img
+              class="img"
+              cCardImg="top"
+              src="assets/Screenshot 2025-02-10 140154.png"
+              alt=""
+            />
+          </ng-template>
+
+          <c-card-body>
+            <h5 cCardTitle>{{ item.products_name }}</h5>
+            <div class="info">
+              <p>Desc :{{ item.products_desc }}</p>
+              <p>Price : {{ item.products_price }}</p>
+              <p>Stock : {{ item.stock_quantity }}</p>
+            </div>
+
+            <div class="btn">
+              <button (click)="onedit(item.products_id)" [cModalToggle]="editModel.id" cButton style="margin: 0 5px; color:white" color="warning"  >Edit</button>
+              <button (click)="delete(item.products_id)" cButton style="margin: 0 5px; color:white" color="danger"  >Delete</button>
+
+            </div>
+          </c-card-body>
+          <c-card-footer>
+            <small class="text-medium-emphasis"
+              >Last updated {{ convert_time(item.update_date) }}</small
+            >
+          </c-card-footer>
+        </c-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<c-modal #staticBackdropModal backdrop="static" id="staticBackdropModal">
+  <c-modal-header>
+    <h5 cModalTitle>Add Products</h5>
+    <button [cModalToggle]="staticBackdropModal.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div class="form">
+      <!-- img -->
+      <div class="mb-3">
+        <label cLabel for="formFile">Image file</label>
+        <input
+          cFormControl
+          id="formFile"
+          type="file"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+
+      <!-- <p *ngIf="base64Image">Base64 Image Preview:</p> -->
+      <img
+        class="img"
+        *ngIf="base64Image"
+        [src]="base64Image"
+        alt="Preview"
+      />
+
+      <!-- form -->
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Name</label>
+        <input cFormControl
+
+        [(ngModel)]="addForm.products_name"
+        [ngModelOptions]="{standalone: true}"
+               id="exampleFormControlInput1"
+               placeholder="Name"
+               type="text"
+        />
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlTextarea1">Descriptions</label>
+        <textarea [(ngModel)]="addForm.products_desc" [ngModelOptions]="{standalone: true}" cFormControl id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+
+
+      <!-- CATEGORY -->
+
+      <div class="CATEGORY">
+        <label cLabel for="select">category</label>
+        <select id="select" [(ngModel)]="addForm.category_id"
+        [ngModelOptions]="{standalone: true}" aria-label="Default select example" cSelect>
+          <option  *ngFor="let item of category_data" [value]="+item.category_id"
+          
+          >{{item.category_name}}</option>
+
+        </select>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">price</label>
+        <input cFormControl
+
+        [(ngModel)]="addForm.products_price"
+        [ngModelOptions]="{standalone: true}"
+               id="exampleFormControlInput1"
+               placeholder="1"
+               type="number"
+        />
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">stock</label>
+        <input cFormControl
+
+        [(ngModel)]="addForm.stock_quantity"
+        [ngModelOptions]="{standalone: true}"
+        
+               id="exampleFormControlInput1"
+               placeholder="1"
+               type="number"
+        />
+      </div>
+
+
+
+    </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="staticBackdropModal.id" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary" [cModalToggle]="staticBackdropModal.id" (click)="onSubmit()">Submit</button>
+  </c-modal-footer>
+</c-modal>
+
+
+
+<!-- edit model -->
+
+
+<c-modal #editModel backdrop="static" id="editModel">
+  <c-modal-header>
+    <h5 cModalTitle>Edit Products</h5>
+    <button [cModalToggle]="editModel.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div class="form">
+      <!-- img -->
+      <div class="mb-3">
+        <img
+        class="img"
+        *ngIf="base64Image"
+        [src]="base64Image"
+        alt="Preview"
+      />
+ </div>
+
+        <label cLabel for="formFile">Image file</label>
+        <input
+          cFormControl
+          id="formFile"
+          type="file"
+          (change)="onFileSelected($event)"
+        />
+     
+
+      <!-- <p *ngIf="base64Image">Base64 Image Preview:</p> -->
+      <!-- <img
+        class="img"
+        *ngIf="base64Image"
+        [src]="base64Image"
+        alt="Preview"
+      /> -->
+
+      <!-- form -->
+
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">Name</label>
+        <input cFormControl
+
+        [(ngModel)]="editForm.products_name"
+        [ngModelOptions]="{standalone: true}"
+               id="exampleFormControlInput1"
+               placeholder="Name"
+               type="text"
+        />
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlTextarea1">Descriptions</label>
+        <textarea [(ngModel)]="editForm.products_desc" [ngModelOptions]="{standalone: true}" cFormControl id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+
+
+      <!-- CATEGORY -->
+
+      <div class="CATEGORY">
+        <label cLabel for="select">category</label>
+        <select id="select" [(ngModel)]="editForm.category_id"
+        [ngModelOptions]="{standalone: true}" aria-label="Default select example" cSelect>
+          <option  *ngFor="let item of category_data" [value]="+item.category_id"
+          
+          >{{item.category_name}}</option>
+
+        </select>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">price</label>
+        <input cFormControl
+
+        [(ngModel)]="editForm.products_price"
+        [ngModelOptions]="{standalone: true}"
+               id="exampleFormControlInput1"
+               placeholder="1"
+               type="number"
+        />
+      </div>
+      <div class="mb-3">
+        <label cLabel for="exampleFormControlInput1">stock</label>
+        <input cFormControl
+
+        [(ngModel)]="editForm.stock_quantity"
+        [ngModelOptions]="{standalone: true}"
+        
+               id="exampleFormControlInput1"
+               placeholder="1"
+               type="number"
+        />
+      </div>
+
+
+
+    </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="editModel.id" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary" [cModalToggle]="editModel.id" (click)="onEditSubmit()">Submit</button>
+  </c-modal-footer>
+</c-modal>
+

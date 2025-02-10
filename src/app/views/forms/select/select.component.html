@@ -1,0 +1,59 @@
+<div class="title-header">
+  <div class="head">
+    <h4 class="text-border">เพิ่ม ครุภัณฑ์</h4>
+  </div>
+  <div class="btn">
+    <button
+      cButton
+      color="primary"
+      class="text"
+      style="margin-right: 10px"
+      (click)="navBack()"
+    >
+      ย้อนกลับ
+    </button>
+    <div class="temp"></div>
+  </div>
+  <div class="empty"></div>
+
+
+
+  <div class="mb-3" style="margin-top: 20px">
+    <label cLabel for="formFile">เลือกไฟล์</label>
+    <input
+      cFormControl
+      id="formFile"
+      type="file"
+      (change)="onFileSelected($event)"
+    />
+  </div>
+
+  
+
+
+
+  <div
+    class=""
+    style="display: flex; justify-content: center; margin: 70px 0 0"
+  >
+    <button
+      cButton
+      class="white-text"
+      color="success"
+      style="margin: 0 20px"
+      (click)="uploadFile()"
+    >
+      บันทึก
+    </button>
+    <button
+      cButton
+      class="cancle-btn white-text"
+      color="danger"
+      (click)="onCancel()"
+    >
+      ยกเลิก
+    </button>
+  </div>
+</div>
+
+<!-- ทกสอบ pull -->

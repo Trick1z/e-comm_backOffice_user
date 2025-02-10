@@ -1,0 +1,148 @@
+<div class="holder">
+  <div class="firstCard">
+    <div class="txt">
+      <h3>รายการผู้ยืม</h3>
+    </div>
+  </div>
+
+  <div class="secCard">
+    <div class="txt">
+      <div class="btn">
+        <div class="temp"></div>
+        <button cButton color="primary" class="text" style="margin-right: 10px;" (click)="nevAdd()">เพิ่มรายการ</button>
+      </div>
+    </div>
+
+    <div class="empty"></div>
+
+    <div class="data-table">
+      <dx-data-grid id="gridContainer" [dataSource]="borrowForm" [showBorders]="true">
+        <dxo-search-panel [visible]="false"></dxo-search-panel>
+        <dxo-editing mode="row" [allowAdding]="false" [allowUpdating]="false" [allowDeleting]="false">
+        </dxo-editing>
+        <dxo-editing mode="row">
+        </dxo-editing>
+        <div style="display: flex; " *dxTemplate="let data of 'cellTemplateDelte'">
+          <button (click)="triggerPopup(data.values)" cButton
+            color="info" style="color: white;">info</button>
+        </div>
+        <dxi-column [width]="70" cellTemplate="cellTemplateDelte"></dxi-column>
+        <dxi-column dataField="LIST_ID" caption="ID" alignment="center" [width]="50"></dxi-column>
+
+        <dxi-column dataField="STUDENT_ID" caption="รหัส" alignment="center"
+          cellTemplate="cellStudentCode"></dxi-column>
+        <div *dxTemplate="let cell of 'cellStudentCode'">
+          <div class="">
+            <span>{{displayStudentData((cell.data.STUDENT_ID), 'code')}}</span>
+          </div>
+        </div>
+
+        <dxi-column dataField="STUDENT_ID_1" caption="ชื่อ" alignment="center"
+          cellTemplate="cellTemplateStatus"></dxi-column>
+        <div *dxTemplate="let cell of 'cellTemplateStatus'">
+          <div class="">
+            <span>{{displayStudentData((cell.data.STUDENT_ID) , 'name')}}</span>
+          </div>
+        </div>
+
+        <dxi-column dataField="PRODUCT_ID" caption="ชื่อครุภัณฑ์" alignment="center"
+          cellTemplate="cellProductStatus"></dxi-column>
+        <div *dxTemplate="let cell of 'cellProductStatus'">
+          <div class="">
+            <span>{{displayproduct((cell.data.PRODUCT_ID),'name')}}</span>
+          </div>
+        </div>
+
+
+        <dxi-column dataField="PRODUCT_ID_1" caption="Serial Number" alignment="center"
+          cellTemplate="cellSerialProductStatus"></dxi-column>
+        <div *dxTemplate="let cell of 'cellSerialProductStatus'">
+          <div class="">
+            <span>{{displayproduct((cell.data.PRODUCT_ID) ,'serial' )}}</span>
+          </div>
+        </div>
+
+        <dxi-column dataField="PRODUCT_ID_2" caption="รหัสครุภัณฑ์" alignment="center"
+          cellTemplate="celleqProductStatus"></dxi-column>
+        <div *dxTemplate="let cell of 'celleqProductStatus'">
+          <div class="">
+            <span>{{displayproduct((cell.data.PRODUCT_ID) , 'qe')}}</span>
+          </div>
+        </div>
+
+        <dxi-column dataField="CREATE_DATE" caption="วันที่ยืม" alignment="center" [width]="200"
+          cellTemplate="cellCreate_date"></dxi-column>
+        <div *dxTemplate="let cell of 'cellCreate_date'">
+          <div class="">
+            {{convertTime(cell.data.CREATE_DATE)}}
+          </div>
+        </div>
+        <div style="display: flex; " *dxTemplate="let data of 'cellchangestatus'">
+          <button (click)="toChange(data.values)" cButton
+            color="danger" style="color: white;">คืน</button>
+        </div>
+        <dxi-column [width]="70" cellTemplate="cellchangestatus"></dxi-column>
+        <dxo-paging [pageSize]="100"></dxo-paging>
+        <!-- <dxo-search-panel [visible]="true"></dxo-search-panel>         -->
+
+      </dx-data-grid>
+    </div>
+  </div>
+</div>
+
+
+<!-- popupinfo -->
+
+<dx-popup [width]="650" [height]="600" [hideOnOutsideClick]="true" [showCloseButton]="true" [(visible)]="ShowInfoPopup"
+  title="ข้อมูล ครุภัณฑ์">
+
+
+
+  <!--   -->
+
+  <div class="">
+    <dx-form [formData]="showInfoData" [readOnly]="true" [colCount]="6">
+
+      <dxi-item [colSpan]="3" dataField="PRODUCT_NAME">
+        <dxo-label template="ชื่อ ครุภัณฑ์"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="3" dataField="PRODUCT_DESCRIPTION">
+        <dxo-label template="คำอธิบาย"></dxo-label>
+      </dxi-item>
+
+      <dxi-item [colSpan]="2" dataField="PRODUCT_DOP">
+        <dxo-label template="วันที่ซื้อ"></dxo-label>
+
+      </dxi-item>
+
+      <dxi-item [colSpan]="2" dataField="PRODUCT_PRICE">
+        <dxo-label template="ราคา"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="2" dataField="PRODUCT_BAND">
+        <dxo-label template="ยี้ห้อ"></dxo-label>
+      </dxi-item>
+
+      <dxi-item [colSpan]="3" dataField="PRODUCT_SERIALNUMBER">
+        <dxo-label template="ซีเรียลนัมเบอร์"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="3" dataField="PRODUCT_EQUIPMENTNUMBER">
+        <dxo-label template="เลขครุภัณฑ์"></dxo-label>
+      </dxi-item>
+    </dx-form>
+  </div>
+
+  <div class="empty" ></div>
+  <div class="img-group" style="display: flex;
+  justify-content: space-around;
+  align-items: center;
+">
+    <div class="img" *ngIf="imgData; else noImage">
+      <img style="width: 400px" [src]="imgData" alt="Image" />
+    </div>
+    <ng-template #noImage>
+      <p>No image available.</p>
+    </ng-template>
+  </div>
+
+
+</dx-popup>

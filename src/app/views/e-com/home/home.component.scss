@@ -1,0 +1,41 @@
+.card-groups {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+ 
+  .cards {
+    margin-bottom: 10px;
+    width: 250px;
+    
+    
+      .img {
+        width: 240px;
+        height: 200px;
+        max-height: 200px;
+        max-width: 240px;
+      }
+    
+  }
+}
+
+.product-info{
+  .btn-groups{
+    margin: 20px 0;
+  }
+}
+
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+}
+
+.form{
+  .img{
+    width: 240px;
+    height: 200px;
+    
+    max-width: 240px;
+    max-width: 200px;
+  }
+}

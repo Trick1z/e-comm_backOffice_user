@@ -1,0 +1,88 @@
+<div class="title-header">
+  <div class="head">
+    <h4 class="text-border">เพิ่ม ครุภัณฑ์</h4>
+  </div>
+  <div class="btn">
+    <button cButton color="primary" class="text" style="margin-right: 10px;" (click)="nevBack()">ย้อนกลับ</button>
+    <div class="temp"></div>
+  </div>
+  <div class="empty"></div>
+
+
+
+  <div class="form">
+    <dx-form [formData]="ProductForms" [colCount]="6">
+
+      <dxi-item [colSpan]="2" dataField="PRODUCT_NAME">
+        <dxo-label template="ชื่อ"></dxo-label>
+      </dxi-item>
+
+      <dxi-item [colSpan]="2" dataField="CATEGORY_ID">
+        <dx-select-box [items]="CategoryData" [dataSource]="CategoryData" [(value)]="ProductForms.CATEGORY_ID"
+          valueExpr="value" displayExpr="name" displayValue="{{ProductForms.CATEGORY_ID}}"></dx-select-box>
+        <dxo-label template="หมวดหมู่"></dxo-label>
+      </dxi-item>
+
+      <dxi-item [colSpan]="2" dataField="STATUS_ID">
+        <dx-select-box [items]="StatusData" [dataSource]="StatusData" [(value)]="ProductForms.STATUS_ID"
+          valueExpr="value" displayExpr="name" displayValue="{{ProductForms.STATUS_ID}}"></dx-select-box>
+        <dxo-label template="สถานะ"></dxo-label>
+      </dxi-item>
+
+      <dxi-item [colSpan]="2" dataField="PRODUCT_PRICE" editorType="dxNumberBox" [width]="300" [height]="50">
+        <dxo-label template="ราคา"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="2" dataField="PRODUCT_DOP" editorType="dxDateBox" >
+        <dxo-label template="วันที่ซื้อ"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="2" dataField="PRODUCT_BAND">
+        <dxo-label template="ยี้ห้อ"></dxo-label>
+      </dxi-item>
+
+
+      <dxi-item [colSpan]="3" dataField="PRODUCT_SERIALNUMBER">
+        <dxo-label template="Serial Number"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="3" dataField="PRODUCT_EQUIPMENTNUMBER">
+        <dxo-label template="รหัส ครุภัณฑ์"></dxo-label>
+      </dxi-item>
+
+
+
+
+
+
+      <dxi-item [colSpan]="6" dataField="PRODUCT_DESCRIPTION" [height]="130" editorType="dxTextArea">
+        <dxo-label template="รายละเอียด"></dxo-label>
+      </dxi-item>
+
+    </dx-form>
+
+    <div class="mb-3" style="margin-top: 20px;">
+      <label cLabel for="formFile">เลือกไฟล์ภาพ</label>
+      <input cFormControl id="formFile" type="file" (change)="onFileChange($event)" />
+    </div>
+
+    <!-- <div class="mb-3">
+      <label for="formFile">Upload Image</label>
+      <input id="formFile" type="file" (change)="onFileChange($event)" accept="image/*" />
+    </div> -->
+    
+    <div class="show-pic" *ngIf="imageUrl">
+      <img [src]="imageUrl" alt="Uploaded Image" style="max-width: 50%; height: auto;" />
+    </div>
+
+
+    <div class="" style="display: flex;
+  justify-content: center;
+  margin: 70px 0 0;">
+      <button cButton class="white-text" color="success" style="margin: 0 20px;" (click)="onSubmit()">บันทึก</button>
+      <!-- <button cButton class="white-text" color="success" style="margin: 0 20px;" (click)="onsunmits()">บันsssทึก</button> -->
+      <button cButton class="cancle-btn white-text" color="danger" (click)="onCancel()">ยกเลิก</button>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- ทกสอบ pull -->

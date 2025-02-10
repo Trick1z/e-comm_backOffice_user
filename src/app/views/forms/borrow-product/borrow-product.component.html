@@ -1,0 +1,221 @@
+<!-- <div class="container">
+  <div class="card-groups">
+    <div class="card" *ngFor="let item of productData" (click)="getProductCount(item.PRODUCT_ID)">
+      <div class="text-area">
+        <p>ID : {{ item.PRODUCT_ID }}</p>
+        <p>ชื่อ : {{ item.PRODUCT_NAME }}</p>
+        <p>ยี่ห้อ : {{ item.PRODUCT_BAND }}</p>
+        <p>SR : {{ item.PRODUCT_SERIALNUMBER }}</p>
+        <p>รหัสครุภัณฑ์ : {{ item.PRODUCT_EQUIPMENTNUMBER }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ -->
+
+<div class="container">
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="productData"
+    [showBorders]="true"
+  >
+    <dxo-editing
+      mode="row"
+      [allowAdding]="false"
+      [allowUpdating]="false"
+      [allowDeleting]="false"
+    >
+    </dxo-editing>
+    <dxo-editing mode="row"> </dxo-editing>
+    <dxi-column
+      [caption]="'ข้อมูลการยืม'"
+      [width]="90"
+      cellTemplate="cellTemplateDelte"
+    ></dxi-column>
+
+    <div *dxTemplate="let data of 'cellTemplateDelte'">
+      <button
+        cButton
+        color="primary"
+        (click)="getProductCount(data.values)"
+        class="white-text"
+        style="margin-right: 10px"
+      >
+        ข้อมูล
+      </button>
+    </div>
+    <dxi-column dataField="PRODUCT_ID" [width]="50" [caption]="'ID'">
+    </dxi-column>
+    <dxi-column
+      dataField="PRODUCT_NAME"
+      [width]="160"
+      [caption]="'ชื่อ'"
+    ></dxi-column>
+    <dxi-column dataField="PRODUCT_BAND" [caption]="'ยี่ห้อ'"></dxi-column>
+    <dxi-column
+      dataField="PRODUCT_SERIALNUMBER"
+      [caption]="'Serial Numbers'"
+    ></dxi-column>
+    <dxi-column
+      dataField="PRODUCT_EQUIPMENTNUMBER"
+      [caption]="'รหัสครุภัณฑ์'"
+    ></dxi-column>
+
+    <dxo-paging [pageSize]="100"></dxo-paging>
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+  </dx-data-grid>
+</div>
+<dx-popup
+  [width]="950"
+  [height]="600"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="true"
+  [(visible)]="popupDetail"
+  title="ข้อมูลการยืม ครุภัณฑ์"
+>
+  <!-- <h1>ถูกยืมไปเเล้ว : {{count}} ครั้ง</h1> -->
+
+  <div class="info-card">
+    <c-col lg="6" xs="12">
+      <c-widget-stat-f
+        [title]="'จำนวนที่ยืมไปแล้ว'"
+        class="mb-3"
+        color="primary"
+        padding
+        value="{{count}}"
+      >
+        <ng-template cTemplateId="widgetIconTemplate">
+          <svg [cIcon]="icons.cilCalendarCheck" size="xl" width="24"></svg>
+        </ng-template>
+      </c-widget-stat-f>
+    </c-col>
+  </div>
+
+  <div class="data-grid">
+    <dx-data-grid
+      id="gridContainer"
+      [dataSource]="borrow_product_info"
+      [showBorders]="true"
+    >
+      <dxo-editing
+        mode="row"
+        [allowAdding]="false"
+        [allowUpdating]="false"
+        [allowDeleting]="false"
+      >
+      </dxo-editing>
+      <dxo-editing mode="row"> </dxo-editing>
+
+      <!-- <dxi-column dataField="PRODUCT_NAME" [width]="160" [caption]="'ชื่อ'"></dxi-column>
+      <dxi-column dataField="PRODUCT_BAND" [caption]="'ยี่ห้อ'"></dxi-column>
+      <dxi-column dataField="PRODUCT_SERIALNUMBER" [caption]="'Serial Numbers'"></dxi-column>
+      <dxi-column dataField="PRODUCT_EQUIPMENTNUMBER" [caption]="'รหัสครุภัณฑ์'"></dxi-column> -->
+
+      <dxi-column
+        dataField="STUDENT_ID"
+        caption="รหัสนักศึกษา"
+        alignment="center"
+        cellTemplate="cellStudentCode"
+        [width]="120"
+      ></dxi-column>
+      <div *dxTemplate="let cell of 'cellStudentCode'">
+        <div class="">
+          <span>{{ displayStudentData(cell.data.STUDENT_ID, "code") }}</span>
+        </div>
+      </div>
+
+      <dxi-column
+        dataField="STUDENT_ID_1"
+        caption="ชื่อ"
+        alignment="center"
+        cellTemplate="cellTemplateStatus"
+        [width]="150"
+      ></dxi-column>
+      <div *dxTemplate="let cell of 'cellTemplateStatus'">
+        <div class="">
+          <span>{{ displayStudentData(cell.data.STUDENT_ID, "name") }}</span>
+        </div>
+      </div>
+
+      <dxi-column
+        dataField="PRODUCT_ID"
+        caption="ชื่อครุภัณฑ์"
+        alignment="center"
+        cellTemplate="cellProductStatus"
+      ></dxi-column>
+      <div *dxTemplate="let cell of 'cellProductStatus'">
+        <div class="">
+          <span>{{ displayproduct(cell.data.PRODUCT_ID, "name") }}</span>
+        </div>
+      </div>
+      <dxi-column
+        dataField="PRODUCT_ID_1"
+        caption="Serial Number"
+        alignment="center"
+        cellTemplate="cellSerialProductStatus"
+      ></dxi-column>
+      <div *dxTemplate="let cell of 'cellSerialProductStatus'">
+        <div class="">
+          <span>{{ displayproduct(cell.data.PRODUCT_ID, "serial") }}</span>
+        </div>
+      </div>
+
+      <dxi-column
+        dataField="PRODUCT_ID_3"
+        caption="รหัส ครภ"
+        alignment="center"
+        cellTemplate="celleqProductStatus"
+      ></dxi-column>
+      <div *dxTemplate="let cell of 'celleqProductStatus'">
+        <div class="">
+          <span>{{ displayproduct(cell.data.PRODUCT_ID, "qe") }}</span>
+        </div>
+      </div>
+
+      <dxi-column
+        dataField="CREATE_DATE"
+        caption="วันที่ยืม"
+        alignment="center"
+        cellTemplate="cellCreate_date"
+      ></dxi-column>
+      <div *dxTemplate="let cell of 'cellCreate_date'">
+        <div class="">
+          <span>{{ convertTime(cell.data.CREATE_DATE) }}</span>
+        </div>
+      </div>
+      <dxi-column
+        dataField="UPDATE_DATE"
+        caption="วันที่คืน"
+        alignment="center"
+        cellTemplate="cellUpdate_date"
+      ></dxi-column>
+      <div *dxTemplate="let cell of 'cellUpdate_date'">
+        <div class="">
+          <span>{{ convertTime(cell.data.UPDATE_DATE) }}</span>
+        </div>
+      </div>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-search-panel [visible]="true"></dxo-search-panel>
+    </dx-data-grid>
+  </div>
+</dx-popup>
+
+<!-- <dxi-column dataField="PRODUCT_ID" caption="ชื่อ ครภ" alignment="center"
+          cellTemplate="cellProductStatus"></dxi-column>
+        <div *dxTemplate="let cell of 'cellProductStatus'">
+          <div class="">
+            <span>{{displayproduct((cell.data.PRODUCT_ID),'name')}}</span>
+          </div>
+        </div>
+
+
+        <dxi-column dataField="PRODUCT_ID_1" caption="Serial Number" alignment="center"
+          cellTemplate="cellSerialProductStatus"></dxi-column>
+        <div *dxTemplate="let cell of 'cellSerialProductStatus'">
+          <div class="">
+            <span>{{displayproduct((cell.data.PRODUCT_ID) ,'serial' )}}</span>
+          </div>
+        </div> -->

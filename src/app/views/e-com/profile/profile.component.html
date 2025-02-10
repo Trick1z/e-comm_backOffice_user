@@ -1,0 +1,27 @@
+<div class="container flex-center">
+  <div class="card flex-center mg-10">
+    <c-avatar
+      color="secondary"
+      size="xl"
+      src="assets/images/avatars/2.jpg"
+    ></c-avatar>
+
+    <label for="username" style="margin-top: 40px">username</label>
+    <h4 id="username">{{ data.username }}</h4>
+    <label for="username" style="margin-top: 10px">username</label>
+    <div class="address-box flex-center" style="flex-direction: row">
+      <h4 id="username">{{ data.address }}</h4>
+      <button
+        cHeaderToggler
+        class="btn"
+        
+      >
+        <svg cIcon name="cil-home" size="lg"></svg>
+        <!-- <svg [cIcon]="icons.cilPlus"></svg> -->
+
+
+      </button>
+
+    </div>
+  </div>
+</div>

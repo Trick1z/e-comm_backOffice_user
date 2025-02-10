@@ -1,0 +1,554 @@
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+/>
+<div class="title-header">
+  <!-- <div class="head">
+    <h4 class="white-text">เพิ่ม ครุภัณฑ์</h4>
+  </div> -->
+  <div class="btn">
+    <!-- <div class="btn"></div> -->
+    <button
+      cButton
+      color="primary"
+      class="text"
+      style="margin-right: 10px"
+      (click)="find()"
+    >
+      ค้นหา
+    </button>
+    <button
+      cButton
+      color="primary"
+      class="text"
+      style="margin-right: 10px"
+      (click)="nevBack()"
+    >
+      ย้อนกลับ
+    </button>
+    <!-- <div class="temp"></div> -->
+  </div>
+  <div class="empty"></div>
+  <div>
+    <dx-form [formData]="StudentForms" [readOnly]="true" [colCount]="6">
+      <dxi-item [colSpan]="3" dataField="STUDENT_NAME">
+        <dxo-label template="ชื่อนักศึกษา"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="3" dataField="STUDENT_CODE">
+        <dxo-label template="รหัสนักศึกษา"></dxo-label>
+      </dxi-item>
+
+      <dxi-item [colSpan]="3" dataField="STUDENT_MAJOR">
+        <dxo-label template="สาขา"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="3" dataField="STUDENT_FACULTY">
+        <dxo-label template="คณะ"></dxo-label>
+      </dxi-item>
+    </dx-form>
+  </div>
+  <div class="empty"></div>
+
+  <div class="hideproduct" *ngIf="showProduct == true">
+    <div class="btn">
+      <h3>เพิ่มรายการ ครุภัณฑ์</h3>
+    </div>
+
+    <div style="display: flex; justify-content: space-between">
+      <button
+        cButton
+        color="primary"
+        class="text"
+        style="margin-right: 10px; color: white"
+        (click)="addproductBTN()"
+      >
+        เพิ่ม
+      </button>
+      <button
+        cButton
+        color="primary"
+        class="text"
+        style="margin-right: 10px; color: white"
+        (click)="clearOnHold('Y')"
+      >
+        Clear On Hold
+      </button>
+    </div>
+
+    <div class="datagrid" style="margin-top: 10px">
+      <div class="cat-list">
+        <dx-data-grid
+          id="gridContainer"
+          [dataSource]="ProductData"
+          [showBorders]="true"
+        >
+          <dxo-search-panel [visible]="false"></dxo-search-panel>
+          <dxo-editing
+            mode="row"
+            [allowAdding]="false"
+            [allowUpdating]="false"
+            [allowDeleting]="false"
+          >
+          </dxo-editing>
+          <dxo-editing mode="row"> </dxo-editing>
+
+          <!-- <dxi-column dataField="PRODUCT_ID" caption="ID" alignment="center" [width]="50">
+          </dxi-column> -->
+
+          <div
+            style="display: flex"
+            *dxTemplate="let data of 'cellTemplateDelte'"
+          >
+            <button
+              cButton
+              color="danger"
+              (click)="addProductToArr(data.values, data.rowIndex, 'N')"
+              class=""
+              style="color: white"
+            >
+              x
+            </button>
+          </div>
+          <dxi-column
+            [width]="50"
+            cellTemplate="cellTemplateDelte"
+          ></dxi-column>
+
+          <dxi-column
+            dataField="PRODUCT_ID"
+            caption="ID"
+            alignment="center"
+            [width]="50"
+          >
+          </dxi-column>
+          <dxi-column
+            dataField="PRODUCT_NAME"
+            caption="ชื่อ"
+            alignment="center"
+            [width]="170"
+          >
+          </dxi-column>
+          <dxi-column
+            dataField="PRODUCT_BAND"
+            caption="ยี้ห้อ"
+            alignment="center"
+            [width]="170"
+          >
+          </dxi-column>
+          <dxi-column
+            dataField="PRODUCT_PRICE"
+            caption="ราคา"
+            alignment="center"
+            [width]="170"
+          >
+          </dxi-column>
+          <!-- <dxi-column
+            dataField="PRODUCT_DOP"
+            caption="วันที่ซื้อ"
+            alignment="center"
+            [width]="170"
+          >
+          </dxi-column> -->
+          <dxi-column
+        dataField="PRODUCT_DOP"
+        caption="วันที่ซื้อ"
+        alignment="center"
+        cellTemplate="cellCreate_date"
+      ></dxi-column>
+      <div *dxTemplate="let cell of 'cellCreate_date'">
+        <div class="">
+          <span>{{ convertTime(cell.data.PRODUCT_DOP) }}</span>
+        </div>
+      </div>
+          <dxi-column
+            dataField="PRODUCT_SERIALNUMBER"
+            caption="ซีเรียลนัมเบอร์"
+            alignment="center"
+            [width]="220"
+          >
+          </dxi-column>
+          <dxi-column
+            dataField="PRODUCT_EQUIPMENTNUMBER"
+            caption="รหัสครุภัณฑ์"
+            alignment="center"
+            [width]="220"
+          ></dxi-column>
+
+          <dxo-paging [pageSize]="100"></dxo-paging>
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+        </dx-data-grid>
+      </div>
+    </div>
+    <div
+      class="btn"
+      style="display: flex; justify-content: center; margin: 30px 0"
+    >
+      <button
+        cButton
+        class="white-text"
+        color="success"
+        style="margin: 0 20px; color: white"
+        (click)="onSave()"
+      >
+        บันทึก
+      </button>
+      <!-- <button cButton class="cancle-btn white-text" color="danger" (click)="onCancel()">ยกเลิก</button> -->
+    </div>
+  </div>
+</div>
+
+<!-- camera notactive -->
+<!-- 
+<div class="scanner" *ngIf="activeScanner === true">
+  <div>
+    <zxing-scanner
+    
+      [device]="currentDevice"
+      (scanSuccess)="onScanSuccess($event)"
+      (scanError)="onScanError($event)"
+    >
+    </zxing-scanner>
+  </div>
+</div> -->
+<!-- [width]="600"
+[height]="600" -->
+<dx-popup
+  [width]="650"
+  [height]="700"
+  class="custom-popup"
+  [hideOnOutsideClick]="false"
+  [showCloseButton]="false"
+  [(visible)]="ShowFindPopup"
+  title="ข้อมูล นักศึกษา"
+>
+  <div
+    class="scanner"
+    style="display: flex; justify-content: center"
+    *ngIf="activeScanner === true"
+  >
+    <div style="margin-bottom: 1rem; display: flex; justify-content: center">
+      <!-- [device]="currentDevice"  -->
+      <zxing-scanner
+        class="custom-video"
+        [device]="currentDevice"
+        (scanSuccess)="onScanSuccess($event)"
+        (scanError)="onScanError($event)"
+        [class.hide-video]="false"
+      >
+      </zxing-scanner>
+    </div>
+  </div>
+  <!-- 
+  <div class="flex" style="align-items: center;">
+    <div class="" id="">
+      <dx-form [formData]="findStudentData" [colCount]="8">
+        <dxi-item [colSpan]="6" dataField="STUDENT_CODE">
+          <dxo-label template="ค้นหา รหัสนักศึกษา"></dxo-label>
+        </dxi-item>
+
+        <dxi-item [colSpan]="2">
+          <dxo-label template=" "></dxo-label>
+          <button cButton class="end white-text" color="success" style="margin: 0 20px;"
+            (click)="onFindSubmit(this.findStudentData.STUDENT_CODE)">ค้นหา</button>
+        </dxi-item>
+      </dx-form>
+    </div>
+
+  </div> -->
+  <div style="display: flex; flex-direction: row-reverse">
+    <button
+      cButton
+      class=""
+      color="success"
+      style="margin: -10px 0 10px 0; color: white"
+      (click)="onClosePopup()"
+    >
+      ยกเลิก
+    </button>
+  </div>
+
+  <c-input-group class="mb-3">
+    <input
+      [(ngModel)]="sCode"
+      aria-describedby="button-addon2"
+      aria-label="รหัสนักศึกษา"
+      cFormControl
+      placeholder="รหัสนักศึกษา"
+    />
+    <button
+      cButton
+      color="secondary"
+      id="button-addon2"
+      type="button"
+      variant="outline"
+      (click)="onFindSubmit(sCode)"
+    >
+      ค้นหา
+    </button>
+  </c-input-group>
+
+  <div class="" style="margin-top: 20px; margin-bottom: 20px"></div>
+
+  <div class="" *ngIf="isVisible == true">
+    <dx-form [formData]="findStudentData" [readOnly]="true" [colCount]="6">
+      <dxi-item [colSpan]="3" dataField="STUDENT_CODE">
+        <dxo-label template="รหัส"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="3" dataField="STUDENT_NAME">
+        <dxo-label template="ชื่อ"></dxo-label>
+      </dxi-item>
+
+      <dxi-item [colSpan]="3" dataField="STUDENT_FACULTY">
+        <dxo-label template="คณะ"></dxo-label>
+      </dxi-item>
+      <dxi-item [colSpan]="3" dataField="STUDENT_MAJOR">
+        <dxo-label template="สาขา"></dxo-label>
+      </dxi-item>
+    </dx-form>
+
+    <div
+      class="btn"
+      style="display: flex; justify-content: center; margin: 40px 0 0 0"
+    >
+      <button
+        cButton
+        class="white-text"
+        color="success"
+        style="margin: 0 20px; color: white"
+        (click)="onSubmit()"
+      >
+        ตกลง
+      </button>
+      <!-- <button cButton class="cancle-btn white-text" color="danger" (click)="onCancel()">ยกเลิก</button> -->
+    </div>
+  </div>
+
+  <!-- <div class="err" *ngIf="wrong == true">
+    <h5>{{wanning}}</h5>
+  </div> -->
+</dx-popup>
+
+<dx-popup
+  [width]="1200"
+  [height]="900"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="true"
+  [(visible)]="ShowProductPopup"
+  title="เพิ่มรายการ ครุภัณฑ์"
+>
+  <!-- เลือกหมวดหมู่-->
+  <div class="cards">
+    <!-- <c-row>
+
+      <c-col>
+        <c-card [color]="'secondary'" [textColor]="'secondary'" class="mb-3" (click)="findProductData()">
+          <c-card-header style="color: white;">หมวดหมู่</c-card-header>
+          <c-card-body class="bg-gradient">
+
+            <h4 style="color: white;">ทั้งหมด</h4>
+          </c-card-body>
+        </c-card>
+      </c-col>
+
+      <c-col *ngFor="let item of categoryCard ; index as i" [lg]="2" >
+        <c-card [color]="'secondary'" [textColor]="'secondary'" class="mb-3" (click)="findProductDataฺByCategotyId(7)">
+          <c-card-header style="color: white;">หมวดหมู่</c-card-header>
+          <c-card-body class="bg-gradient">
+            <h4 style="color: white;">{{item.name}}</h4>
+
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row> -->
+
+    <!-- <div class="cards">
+      <c-row>
+  
+        <c-col>
+          <c-card [color]="'secondary'"
+                  [textColor]="'secondary'"
+                  class="mb-3" (click)="findProductData()">
+            <c-card-header style="color: white;">หมวดหมู่</c-card-header>
+            <c-card-body class="bg-gradient">
+               <h4 style="color: white;">ทั้งหมด</h4>
+            </c-card-body>
+          </c-card>
+        </c-col>
+  
+        <c-col *ngFor="let item of categoryCard ; index as i" [lg]="3">
+          <c-card [color]="'secondary'"
+                  [textColor]="'secondary'"
+                  class="mb-3" (click)="CardButton(item.value)">
+            <c-card-header style="color: white;">หมวดหมู่</c-card-header>
+            <c-card-body class="bg-gradient">
+               <h4 style="color: white;">{{item.name}}</h4>
+            
+            </c-card-body>
+          </c-card>
+        </c-col>
+      </c-row>
+  
+  
+    </div> -->
+    <div class="buttons">
+      <!-- <h3 style="padding: 20px 0 10px 0;">หมวดหมู่</h3>
+      <c-row [xs]="2" [lg]="6" [gutter]="{g: 2, lg: {g: 3}}">
+        <button cButton color="info" variant="outline" size="lg" style="color:black ; margin-right: 20px;" (click)="findProductData()">ทั้งหมด</button>
+  
+        <button cButton color="info" style="color:black; margin-right: 20px;" variant="outline" size="lg" *ngFor="let item of categoryCard ; index as i"
+        (click)="CardButton(item.value)">{{item.name}}</button>
+  
+      </c-row> -->
+
+      <!-- <div class="row">
+        <div class="col-md-3" (click)="getProductData()">
+          <div class="card-counter info">
+            <i class="fa fa-users"></i>
+            <span class="count-numbers">ทั้งหมด</span>
+            <span class="count-name">รายการทั้งหมด</span>
+          </div>
+        </div>
+
+        <div
+          class="col-md-3"
+          *ngFor="let item of categoryCard; index as i"
+          (click)="CardButton(item.value)"
+          >
+          <div class="card-counter info">
+            <i class="fa fa-users"></i>
+            <span class="count-numbers">{{ item.name }}</span>
+            <span class="count-name">{{ item.name }}</span>
+          </div>
+        </div>
+      </div> -->
+<!-- hereee -->
+<div class="row">
+  <c-col class="" lg="12" xs="12" (click)="getProductData()">
+    <c-widget-stat-f
+      [title]="'รายการทั้งหมด'"
+      class="mb-3 hovers"
+      color="primary"
+      value="ทั้งหมด"
+    >
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg [cIcon]="icons.cilLibrary" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+
+
+<c-col lg="3" xs="12" *ngFor="let item of categoryCard; index as i"
+(click)="CardButton(item.value)">
+  <c-widget-stat-f
+    [title]= "item.desc"
+    class="mb-3 hovers"
+    color="primary"
+    value="{{ item.name}}"
+  >
+    <ng-template cTemplateId="widgetIconTemplate">
+      <svg [cIcon]="icons.cilClipboard" size="xl" width="24"></svg>
+    </ng-template>
+  </c-widget-stat-f>
+</c-col>
+</div>
+<!-- hereee -->
+
+      
+    </div>
+  </div>
+
+  <div class="empty" style="padding: 20px"></div>
+
+  <div class="datagrid">
+    <dx-data-grid
+      id="gridContainer"
+      [dataSource]="ProductDataID"
+      [showBorders]="true"
+    >
+      <dxo-search-panel [visible]="false"></dxo-search-panel>
+      <dxo-editing
+        mode="row"
+        [allowAdding]="false"
+        [allowUpdating]="false"
+        [allowDeleting]="false"
+      >
+      </dxo-editing>
+      <dxo-editing mode="row"> </dxo-editing>
+
+      <!-- <dxi-column dataField="PRODUCT_ID" caption="ID" alignment="center" [width]="50">
+    </dxi-column> -->
+
+      <div style="display: flex" *dxTemplate="let data of 'cellTemplateDelte'">
+        <button
+          cButton
+          color="success"
+          (click)="addProductToArr(data.values, data.rowIndex, 'Y')"
+          class=""
+          style="color: white"
+        >
+          +
+        </button>
+      </div>
+      <dxi-column [width]="50" cellTemplate="cellTemplateDelte"></dxi-column>
+
+      <dxi-column
+        dataField="PRODUCT_ID"
+        caption="ID"
+        alignment="center"
+        [width]="50"
+      >
+      </dxi-column>
+      <dxi-column
+        dataField="PRODUCT_NAME"
+        caption="ชื่อ"
+        alignment="center"
+        [width]="170"
+      >
+      </dxi-column>
+      <dxi-column
+        dataField="PRODUCT_BAND"
+        caption="ยี้ห้อ"
+        alignment="center"
+        [width]="170"
+      >
+      </dxi-column>
+      <dxi-column
+        dataField="PRODUCT_PRICE"
+        caption="ราคา"
+        alignment="center"
+        [width]="170"
+      >
+      </dxi-column>
+      <dxi-column
+      [width]="150"
+        dataField="PRODUCT_DOP"
+        caption="วันที่ซื้อ"
+        alignment="center"
+        cellTemplate="cellCreate_date"
+      ></dxi-column>
+      <div *dxTemplate="let cell of 'cellCreate_date'">
+        <div class="">
+          <span>{{ convertTime(cell.data.PRODUCT_DOP) }}</span>
+        </div>
+      </div>
+      <dxi-column
+        dataField="PRODUCT_SERIALNUMBER"
+        caption="ซีเรียลนัมเบอร์"
+        alignment="center"
+        [width]="220"
+      >
+      </dxi-column>
+      <dxi-column
+        dataField="PRODUCT_EQUIPMENTNUMBER"
+        caption="รหัสครุภัณฑ์"
+        alignment="center"
+        [width]="220"
+      ></dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-search-panel [visible]="true"></dxo-search-panel>
+    </dx-data-grid>
+  </div>
+</dx-popup>
