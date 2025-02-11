@@ -397,7 +397,7 @@ export class InputGroupsComponent implements OnInit {
     this.sCode = this.scannedResult;
 
     this.onFindSubmit(this.sCode);
-    console.log('Scanned QR Code:', this.scannedResult);
+    // console.log('Scanned QR Code:', this.scannedResult);
 
   }
 

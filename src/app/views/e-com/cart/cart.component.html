@@ -1,0 +1,87 @@
+<div class="container">
+  <h1>CARTS</h1>
+  <div class="cart-body">
+    <div class="item-gruops">
+      <div class="item" *ngFor="let item of cart_item">
+        <div class="left flex-center">
+          <img
+            (click)="get_products_id()"
+            cCardImg="top"
+            class="img"
+            [src]="getProductImage(item.products_id)"
+            *ngIf="getProductImage(item.products_id); else defaultImage"
+          />
+
+          <ng-template #defaultImage>
+            <img
+              class="img"
+              cCardImg="top"
+              src="assets/Screenshot 2025-02-10 140154.png"
+              alt=""
+            />
+          </ng-template>
+
+          <div class="text-box">
+            <p class="black">Name :{{ item.products_data.products_name }}</p>
+            <p class="black">Desc :{{ item.products_data.products_desc }}</p>
+            <p class="black">Price :{{ item.products_data.products_price }}</p>
+          </div>
+        </div>
+
+        <div class="mid">
+          <h4>จำนวน : {{ item.quantity }}</h4>
+        </div>
+        <div class="right">
+          <button
+            (click)="onDelete(item.cart_item_id)"
+            class="btns"
+            cButton
+            color="danger"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showBuyBtn == true"
+      class=""
+      style="
+        display: flex;
+        flex-direction: row-reverse;
+        padding: 20px;
+        align-items: center;
+      "
+    >
+      <button
+        [cModalToggle]="BuyModel.id"
+        (click)="get_amoung()"
+        style="color: white"
+        class="btns"
+        cButton
+        color="info"
+      >
+        Buy
+      </button>
+      <!-- <button (click)="onBuySubmit()" style="color:white" class="btns" cButton color="info">
+        Buy
+      </button> -->
+    </div>
+  </div>
+</div>
+
+<c-modal #BuyModel backdrop="static" id="BuyModel">
+  <c-modal-header>
+    <h5 cModalTitle>Modal title</h5>
+    <button [cModalToggle]="BuyModel.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <h1>Total Amoung : {{ amount_total }}</h1>
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="BuyModel.id" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary" (click)="onBuySubmit()">Continue</button>
+  </c-modal-footer>
+</c-modal>

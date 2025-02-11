@@ -10,6 +10,19 @@
       style="margin-inline-start: -14px"
     >
       <svg cIcon name="cil-home" size="lg"></svg>
+      
+    </button>
+    <button
+    (click)="nav_to('e-com/cart')"
+      [cSidebarToggle]="sidebarId"
+      cHeaderToggler
+      class="btn"
+      toggle="visible"
+      style="margin-inline-start: -14px"
+    >
+      <c-badge color="danger">Cart : {{cart_item}}</c-badge>
+
+      
     </button>
 
     <div class="" style="display:flex;justify-content:center;align-items:center">

@@ -150,7 +150,7 @@ export class LayoutComponent implements OnInit {
 
   }
   onDataDelete(data:any){
-    console.log(data);
+    // console.log(data);
     
     Swal.fire({
           title: `ต้องการลบ "${data[2]}" ID ที่ ${data[0]}`,

@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
 
   log() {
     this.http.post(`http://127.0.0.1:8000/register.user`, this.loginForm).subscribe((res: object) => {
-      console.log(res);
+      // console.log(res);
 
     })
   }
@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
     ) {
       
       this.api.post('register.user', this.loginForm).subscribe( async (res:any) =>{
-        console.log(res);
+        // console.log(res);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -61,12 +61,12 @@ export class RegisterComponent implements OnInit {
         });
         await sleep(1600)
         return nav(this.route, 'login').then(() => {
-              console.log('Navigation successful!');
+              // console.log('Navigation successful!');
             })
         
         
       },err =>{
-        console.log(err);
+        // console.log(err);
         
       })
         

@@ -29,16 +29,14 @@
           <c-card-body>
             <h5 cCardTitle>{{ item.products_name }}</h5>
             <div class="info">
-              <p>Desc :{{ item.products_desc }}</p>
               <p>Price : {{ item.products_price }}</p>
-              <p>Stock : {{ item.stock_quantity }}</p>
+              <p>item in Stock : {{ item.stock_quantity }}</p>
             </div>
 
-            <!-- <div class="btn">
-              <button (click)="onedit(item.products_id)" [cModalToggle]="editModel.id" cButton style="margin: 0 5px; color:white" color="warning"  >Edit</button>
-              <button (click)="delete(item.products_id)" cButton style="margin: 0 5px; color:white" color="danger"  >Delete</button>
+            <div class="btn">
+              <button [cModalToggle]="addCart.id" (click)="log(item)" (click)="set_img_id(item.products_id)"  cButton style="margin: 0 5px; color:white"  color="warning" >Add Cart</button>
 
-            </div> -->
+            </div>
           </c-card-body>
           <c-card-footer>
             <small class="text-medium-emphasis"
@@ -50,3 +48,52 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- add cart model  -->
+<c-modal #addCart backdrop="static" id="addCart">
+  <c-modal-header>
+    <h5 cModalTitle>add cart detail</h5>
+    <button [cModalToggle]="addCart.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+
+    <img
+    cCardImg="top"
+    class="img"
+    [src]="getProductImage(img_id)"
+    *ngIf="getProductImage(img_id); else defaultImage"
+  />
+
+  <ng-template #defaultImage>
+    <img
+      class="img"
+      cCardImg="top"
+      src="assets/Screenshot 2025-02-10 140154.png"
+      alt=""
+    />
+  </ng-template>
+
+  <div class="text">
+    <p>Name : {{cart.products_name}}</p>
+    <p>price : {{cart.products_price}}</p>
+    <p>Stock : {{cart.stock_quantity}}</p>
+
+    <label cLabel for="customRange1">Example range - <strong>{{value}}</strong></label>
+<input [(ngModel)]="value" cFormControl id="customRange1" [max]="max_value" type="range" />
+
+
+  </div>
+
+
+  
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="addCart.id" cButton color="secondary">
+      Close
+    </button>
+    <button cButton [cModalToggle]="addCart.id" color="primary" (click)="addCartOnSubmit()">Add</button>
+  </c-modal-footer>
+</c-modal>

@@ -41,23 +41,36 @@ export class HomeComponent implements OnInit {
     this.api.get(`get.products`).subscribe((res: any) => {
       this.products_data = res.data
 
-      console.log('successfuly pull products data !');
+      // console.log('successfuly pull products data !');
     })
   }
 
-
+  img_id: number = 0
+  set_img_id(get_id: number) {
+    this.img_id = get_id
+  }
 
   get_product_img() {
     this.api.get(`get.img`).subscribe((res: any) => {
       this.img_data = res.data
+
       // return res.msg.data[0].img_url
     })
   }
 
   getProductImage(productId: number): string | null {
     const image = this.img_data.find(item => item.products_id === productId);
+
     return image ? image.img_url : null;
   }
+
+  // getProductItem(productId: number): string | null {
+  //   const products = this.products_data.find(item => item.products_id === productId);
+  //   this.global_stock_quantity = products ? products.products_price : null;
+  //   return products ? products.products_price : null;
+  // }
+
+
 
 
 
@@ -117,9 +130,42 @@ export class HomeComponent implements OnInit {
       return this.addForm = {}
     })
   }
+  cart: any = {}
 
 
-  
+  // global_stock_quantity: number = 0
+  // global_price: number = 0
+  value: number = 1
+  max_value: number = 0
+  log(item: any) {
+    this.cart = item
+    this.max_value = item.stock_quantity
+    // console.log(this.cart);
+  }
+
+  addCartOnSubmit() {
+    var res = sessionStorage.getItem('body')
+    var body = JSON.parse(res || '{}');
+    var userID = body.user_id
+
+
+    // get cart id form user id 
+    this.api.get(`get_cart/${userID}`).subscribe((res: any) => {
+      this.cart.cart_id = res.msg.data[0].cart_id
+      this.cart.quantity = this.value
+      // console.log('cart:' , this.cart);
+      
+      // console.log(res);
+      
+
+      this.api.post('cart_post.cartItem',this.cart).subscribe((res2:any) =>{
+        // console.log(res2);
+        
+      })
+    })
+
+  }
+
 
 }
 

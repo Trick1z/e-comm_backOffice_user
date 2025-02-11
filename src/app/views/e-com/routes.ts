@@ -34,6 +34,15 @@ export const routes: Routes = [
 
       },
      
+      {
+        path: 'cart',
+        loadComponent: () => import('./cart/cart.component').then(m => m.CartComponent),
+        data: {
+          title: 'cart'
+        },
+
+      },
+     
 
       
     ]

@@ -177,7 +177,7 @@ export class ValidationComponent implements OnInit {
     this.http
       .get(`${this.url}/get.category`)
       .subscribe((res: any) => {
-        console.log(res);
+        // console.log(res);
         
         for (let i = 0; i < res.length; i++) {
           const obj: { [key: string]: string } = {

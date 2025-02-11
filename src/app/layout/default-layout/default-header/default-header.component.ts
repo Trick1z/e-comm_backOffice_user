@@ -26,24 +26,29 @@ import {
 } from '@coreui/angular';
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { IconDirective } from '@coreui/icons-angular';
+import { IconDirective, IconModule, IconSetService } from '@coreui/icons-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { delay, filter, map, tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { nav } from "../../../services/navigate";
 import { sleep } from "../../../services/sleep";
+import { ApiService } from '../../../services/api';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
   standalone: true,
   imports: [ButtonDirective, ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, BreadcrumbRouterComponent, ThemeDirective, DropdownComponent, DropdownToggleDirective, TextColorDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, ProgressBarDirective, ProgressComponent, NgStyle
-    , FormsModule
-  ]
+    , FormsModule,
+    IconModule,HttpClientModule
+  ],
+  providers: [ApiService]
+  
 })
 export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
-
+  
   readonly #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   readonly #colorModeService = inject(ColorModeService);
   readonly colorMode = this.#colorModeService.colorMode;
@@ -60,7 +65,9 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
     return this.colorModes.find(mode => mode.name === currentMode)?.icon ?? 'cilSun';
   });
 
-  constructor(private route: Router) {
+  constructor(private route: Router,
+    private api :ApiService
+  ) {
     super();
     this.#colorModeService.localStorageItemName.set('coreui-free-angular-admin-template-theme-default');
     this.#colorModeService.eventName.set('ColorSchemeChange');
@@ -83,9 +90,36 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.getjson();
     this.get_username();
+    this.get_cart_item();
+
+    setInterval(() => {
+      this.get_cart_item();
+    }, 3000); 
+
 
   }
+  cart_item:number = 0
 
+  get_cart_item(){
+    var res = sessionStorage.getItem('body')
+    var body = JSON.parse(res || '{}');
+    var userID = body.user_id
+
+
+    // get cart id form user id 
+    this.api.get(`get_cart/${userID}`).subscribe((res: any) => {
+      
+      var cartID = res.msg.data[0].cart_id 
+         
+      sessionStorage.setItem('cartID',cartID)
+      this.api.get(`get_cart_count/${cartID}`).subscribe((res2:any) =>{
+        this.cart_item = res2.msg.data[0].cart_items
+
+        // console.log(this.cart_item);
+        
+      })
+    })
+  }
   @Input() sidebarId: string = 'sidebar1';
 
   public newMessages = [
@@ -205,13 +239,13 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   }
 
   onHitIcon(){
-    console.log('hit'); 
+    // console.log('hit'); 
   }
 
   async nav_to(path:string){
     await sleep(100)
     nav(this.route, path).then(() => {
-      console.log('Navigation successful!');
+      // console.log('Navigation successful!');
     })
   }
 }

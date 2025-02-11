@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
 
   nav_to(path: string) {
     nav(this.route, 'register').then(() => {
-      console.log('Navigation successful!');
+      // console.log('Navigation successful!');
     })
   }
 
@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
 
      this.api.post('login.user', this.loginForm)
       .subscribe( async (res: any) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
 
           sessionStorage.setItem('ticket','pass')
@@ -104,12 +104,12 @@ export class LoginComponent implements OnInit {
           });
           await sleep(1600)
           nav(this.route, 'e-com/home').then(() => {
-            console.log('Navigation successful!');
+            // console.log('Navigation successful!');
           })
         }
 
       }, err => {
-        console.log(err);
+        // console.log(err);
 
       })
   }
