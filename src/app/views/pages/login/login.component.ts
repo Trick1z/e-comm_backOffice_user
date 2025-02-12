@@ -81,32 +81,45 @@ export class LoginComponent implements OnInit {
   }
 
 
-   loginOnSubmit() {
+  loginOnSubmit() {
 
-     this.api.post('login.user', this.loginForm)
-      .subscribe( async (res: any) => {
+    this.api.post('login.user', this.loginForm)
+      .subscribe(async (res: any) => {
         console.log(res);
         if (res.status === 200) {
+          if (res.body[0].role === 'admin') {
+            sessionStorage.setItem('ticket', 'pass')
+            sessionStorage.setItem('username', res.user)
+            sessionStorage.setItem('body', JSON.stringify(res.body[0]))
 
-          sessionStorage.setItem('ticket','pass')
-          sessionStorage.setItem('username',res.user)
-          sessionStorage.setItem('body',JSON.stringify(res.body[0]))
 
-          // console.log('resbody',res.body);
-          
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Login Successfully",
+              showConfirmButton: false,
+              timer: 1500
+            });
+            await sleep(1600)
+            nav(this.route, 'e-com/home').then(() => {
+              console.log('Navigation successful!');
+            })
 
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Login Successfully",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          await sleep(1600)
-          nav(this.route, 'e-com/home').then(() => {
-            console.log('Navigation successful!');
-          })
+
+          }else{
+
+            return Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "you dont have permission",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+
+          return
         }
+        return
 
       }, err => {
         console.log(err);

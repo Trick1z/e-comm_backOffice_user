@@ -15,7 +15,7 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',
-    
+
       },
       {
         path: 'home',
@@ -41,8 +41,16 @@ export const routes: Routes = [
         },
 
       },
+      {
+        path: 'orders',
+        loadComponent: () => import('./orders/orders.component').then(m => m.OrdersComponent),
+        data: {
+          title: 'orders'
+        },
 
-      
+      },
+
+
     ]
   }
 ];

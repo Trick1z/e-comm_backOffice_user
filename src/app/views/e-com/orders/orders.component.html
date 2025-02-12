@@ -1,0 +1,60 @@
+<div class="texts">
+    <h1>Orders</h1>
+</div>
+
+
+<div class="tables">
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Orders ID</th>
+            <th>User ID</th>
+            <th>Totals</th>
+            <th>Status</th>
+            <th>#</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of order_item; let i = index">
+            <td>{{ item.order_id }}</td>
+            <td>{{ item.user_id }}</td>
+            <td>{{ item.total_amount.toLocaleString()}} THB.</td>
+            <td>{{ dp_status(item.status_id) }}</td>
+            <td>
+              <button cButton color="primary" (click)="set_valures(item.order_id,item.status_id,item.total_amount)" [cModalToggle]="editModal.id">Edit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+</div>
+
+
+
+
+
+
+<!-- model -->
+
+
+<c-modal #editModal backdrop="static" id="editModal">
+  <c-modal-header>
+    <h5 cModalTitle>Edit</h5>
+    <button [cModalToggle]="editModal.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+<h4>total amount : {{total_amount}}</h4>
+    <select [(ngModel)]="status_value" aria-label="Default select example" cSelect>
+      <option [value]="item.status_id" *ngFor="let item of status_item" >{{item.status_name}}</option>
+
+    </select>
+
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="editModal.id" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary" [cModalToggle]="editModal.id" (click)="onsubmit()">Save</button>
+  </c-modal-footer>
+</c-modal>

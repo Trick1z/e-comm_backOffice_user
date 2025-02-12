@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
       && this.loginForm.c_password && this.loginForm.email
     ) {
       
-      this.api.post('register.user', this.loginForm).subscribe( async (res:any) =>{
+      this.api.post('register.user/admin', this.loginForm).subscribe( async (res:any) =>{
         console.log(res);
         Swal.fire({
           position: "center",
