@@ -11,17 +11,90 @@
     <label for="username" style="margin-top: 10px">username</label>
     <div class="address-box flex-center" style="flex-direction: row">
       <h4 id="username">{{ data.address }}</h4>
-      <button
-        cHeaderToggler
-        class="btn"
-        
-      >
+      <button cHeaderToggler class="btn">
         <svg cIcon name="cil-home" size="lg"></svg>
         <!-- <svg [cIcon]="icons.cilPlus"></svg> -->
-
-
       </button>
+    </div>
+  </div>
 
+  <div class="order-history">
+    <div class="table-block">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of order_item; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>Order {{ i + 1 }}</td>
+            <td>total : {{ item.total_amount }}</td>
+            <td>status : {{ dp_status(item.status_id) }}</td>
+            <td>
+              <button
+                cButton
+                color="primary"
+                style="margin: 0 20px"
+                (click)="get_order_id(item.order_id)"
+                [cModalToggle]="infoModel.id"
+              >
+                Info
+              </button>
+              <button cButton color="danger" style="margin: 0 20px">
+                Cancel
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
+
+<!-- order info model  -->
+
+<c-modal #infoModel backdrop="static" id="infoModel" scrollable>
+  <c-modal-header>
+    <h5 cModalTitle>Order Info</h5>
+    <button [cModalToggle]="infoModel.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div class="cards" *ngFor="let item of product_item; let i = index">
+      <div class="img">
+        <img
+          cCardImg="top"
+          class="img"
+          [src]="dp_img(item.products_id)"
+          *ngIf="dp_img(item.products_id); else defaultImage"
+        />
+
+        <ng-template #defaultImage>
+          <img
+            class="img"
+            cCardImg="top"
+            src="assets/Screenshot 2025-02-10 140154.png"
+            alt=""
+          />
+        </ng-template>
+      </div>
+      <div class="text">
+        <p>Name : {{ item.products_name }}</p>
+        <p> Desc : {{ item.products_desc }}</p>
+        <p>Price : {{ item.products_price }}</p>
+        <p>Quantity : {{ order(item.products_id) }}</p>
+        
+      </div>
+    </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="infoModel.id" cButton color="secondary">
+      Close
+    </button>
+  </c-modal-footer>
+</c-modal>
