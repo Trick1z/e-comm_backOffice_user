@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit {
     if (this.loginForm.username && this.loginForm.password
       && this.loginForm.c_password && this.loginForm.email
     ) {
-      
+      // this.api.post('register.user/admin', this.loginForm).subscribe( async (res:any) =>{
       this.api.post('register.user/admin', this.loginForm).subscribe( async (res:any) =>{
         console.log(res);
         Swal.fire({
@@ -63,14 +63,14 @@ export class RegisterComponent implements OnInit {
         return nav(this.route, 'login').then(() => {
               console.log('Navigation successful!');
             })
-        
-        
+
+
       },err =>{
         console.log(err);
-        
+
       })
-        
-        
+
+
     } else {
       Swal.fire({
         position: "center",

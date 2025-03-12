@@ -146,13 +146,17 @@ export class HomeComponent implements OnInit {
 
         this.api.put(`delete2.img/${p_id}`, 'y').subscribe((res: any) => {
           console.log(res);
+          this.get_products()
+        this.get_product_img()
+        this.get_cat_sta()
+
 
         })
 
 
-        this.get_products()
-        this.get_product_img()
-        this.get_cat_sta()
+        // this.get_products()
+        // this.get_product_img()
+        // this.get_cat_sta()
 
         return Swal.fire("Saved!", "", "success");
 
@@ -166,7 +170,7 @@ export class HomeComponent implements OnInit {
   editForm: any = {}
   // onedit(id: number) {
   //   this.api.get(`get.products/${id}`).subscribe((res: any) => {
-  //         this.editForm = res.data[0]; 
+  //         this.editForm = res.data[0];
   //         console.log(res);
   //       });
 
@@ -187,7 +191,7 @@ export class HomeComponent implements OnInit {
 
   // onedit_data(id: number) {
   //   this.api.get(`get.products/${id}`).subscribe((res: any) => {
-  //     this.editForm = res.data[0]; 
+  //     this.editForm = res.data[0];
   //     console.log(res);
   //      // Assign the product data to the form
 
