@@ -67,13 +67,13 @@ export class ProfileComponent implements OnInit {
   }
 
   order_info: order[] = []
-  get_order_id(order_id: number) {
-    this.api.get(`get_order_orderID/${order_id}`).subscribe((res: any) => {
-      this.order_info = res.data
-      console.log(res);
-      this.get_product_img_item()
-    })
-  }
+  // get_order_id(order_id: number) {
+  //   this.api.get(`get_order_orderID/${order_id}`).subscribe((res: any) => {
+  //     this.order_info = res.data
+  //     console.log(res);
+  //     this.get_product_img_item()
+  //   })
+  // }
 
 
   product_item: Product[] = []
@@ -141,7 +141,7 @@ interface ImageData {
 }
 
 interface order {
-  
+
     order_item_id:number
     order_id: number
     products_id: number

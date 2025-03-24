@@ -35,9 +35,9 @@
             <td>{{ i + 1 }}</td>
             <td>Order {{ i + 1 }}</td>
             <td>total : {{ item.total_amount }}</td>
-            <td>status : {{ dp_status(item.status_id) }}</td>
+            <td>status : {{ item.status_name }}</td>
             <td>
-              <button
+              <!-- <button
                 cButton
                 color="primary"
                 style="margin: 0 20px"
@@ -45,7 +45,7 @@
                 [cModalToggle]="infoModel.id"
               >
                 Info
-              </button>
+              </button> -->
               <button cButton color="danger" style="margin: 0 20px">
                 Cancel
               </button>
@@ -58,7 +58,7 @@
 </div>
 
 <!-- order info model  -->
-
+<!--
 <c-modal #infoModel backdrop="static" id="infoModel" scrollable>
   <c-modal-header>
     <h5 cModalTitle>Order Info</h5>
@@ -88,7 +88,7 @@
         <p> Desc : {{ item.products_desc }}</p>
         <p>Price : {{ item.products_price }}</p>
         <p>Quantity : {{ order(item.products_id) }}</p>
-        
+
       </div>
     </div>
   </c-modal-body>
@@ -97,4 +97,4 @@
       Close
     </button>
   </c-modal-footer>
-</c-modal>
+</c-modal> -->

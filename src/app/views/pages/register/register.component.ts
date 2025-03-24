@@ -39,8 +39,8 @@ export class RegisterComponent implements OnInit {
   }
 
   log() {
-    this.http.post(`http://127.0.0.1:8000/register.user`, this.loginForm).subscribe((res: object) => {
-      // console.log(res);
+    this.http.post(`http://127.0.0.1:8000/register.user/user`, this.loginForm).subscribe((res: object) => {
+      console.log(res);
 
     })
   }
@@ -49,8 +49,8 @@ export class RegisterComponent implements OnInit {
     if (this.loginForm.username && this.loginForm.password
       && this.loginForm.c_password && this.loginForm.email
     ) {
-      
-      this.api.post('register.user', this.loginForm).subscribe( async (res:any) =>{
+
+      this.api.post('register.user/user', this.loginForm).subscribe( async (res:any) =>{
         // console.log(res);
         Swal.fire({
           position: "center",
@@ -63,14 +63,14 @@ export class RegisterComponent implements OnInit {
         return nav(this.route, 'login').then(() => {
               // console.log('Navigation successful!');
             })
-        
-        
+
+
       },err =>{
         // console.log(err);
-        
+
       })
-        
-        
+
+
     } else {
       Swal.fire({
         position: "center",
