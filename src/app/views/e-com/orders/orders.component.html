@@ -8,7 +8,7 @@
         <thead>
           <tr>
             <th>Orders ID</th>
-            <th>User ID</th>
+            <th>Username</th>
             <th>Totals</th>
             <th>Status</th>
             <th>#</th>
@@ -17,16 +17,16 @@
         <tbody>
           <tr *ngFor="let item of order_item; let i = index">
             <td>{{ item.order_id }}</td>
-            <td>{{ item.user_id }}</td>
+            <td>{{ item.username }}</td>
             <td>{{ item.total_amount.toLocaleString()}} THB.</td>
-            <td>{{ dp_status(item.status_id) }}</td>
+            <td>{{ item.status}}</td>
             <td>
               <button cButton color="primary" (click)="set_valures(item.order_id,item.status_id,item.total_amount)" [cModalToggle]="editModal.id">Edit</button>
             </td>
           </tr>
         </tbody>
       </table>
-      
+
 </div>
 
 

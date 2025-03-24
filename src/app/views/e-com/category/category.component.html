@@ -20,7 +20,7 @@
           <td>{{ item.category_name }}</td>
           <td>{{ item.category_desc }}</td>
           <td>
-            <button class="btn btn-info" style="margin: 0 5px; color: white">
+            <button [cModalToggle]="editModel.id" (click)="onEditCategory(item,'category')" class="btn btn-info" style="margin: 0 5px; color: white">
               Edit
             </button>
             <button (click)="ondelete('category',item.category_id)" class="btn btn-danger" style="margin: 0 5px; color: white">
@@ -40,7 +40,7 @@
 
   <div class="Status" style="margin-top: 40px;">
     <h1>Status Table</h1>
-    <button class="btn btn-success" style="margin: 20px 5px; color: white">
+    <button [cModalToggle]="addStatusModel.id" class="btn btn-success" style="margin: 20px 5px; color: white">
       Add Status
     </button>
 
@@ -59,10 +59,10 @@
           <td>{{ item.status_name }}</td>
           <td>{{ item.status_desc }}</td>
           <td>
-            <button class="btn btn-info" style="margin: 0 5px; color: white">
+            <button [cModalToggle]="editModel.id" (click)="onEditStaus(item,'status')"  class="btn btn-info" style="margin: 0 5px; color: white">
               Edit
             </button>
-            <button (click)="ondelete('status',item.category_id)" class="btn btn-danger" style="margin: 0 5px; color: white">
+            <button (click)="ondelete('status',item.status_id)" class="btn btn-danger" style="margin: 0 5px; color: white">
               Delete
             </button>
           </td>
@@ -101,7 +101,7 @@
                              id="categoryForm"
                              placeholder="category name"
                              type="text"
-                             
+
                       />
                     </div>
                     <div class="mb-3">
@@ -111,7 +111,7 @@
                        cFormControl id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
                   </form>
-                  
+
             </div>
         </c-modal-body>
         <c-modal-footer>
@@ -121,6 +121,98 @@
           <button [cModalToggle]="categoryModal.id" cButton color="primary"  (click)="onSubmit('category')">Submit</button>
         </c-modal-footer>
       </c-modal>
+
+
+</div>
+
+
+<!-- edit -->
+
+
+
+<div class="category-model">
+
+  <c-modal #editModel backdrop="static" id="editModel">
+      <c-modal-header>
+        <h5 cModalTitle>Edit</h5>
+        <button [cModalToggle]="editModel.id" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>
+          <div class="form">
+              <form cForm>
+                  <div class="mb-3">
+                    <label cLabel for="categoryForm">category name</label>
+                    <input [(ngModel)]="editFrom.name"
+                    [ngModelOptions]="{standalone: true}"
+                     cFormControl
+                           id="categoryForm"
+                           placeholder="category name"
+                           type="text"
+
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label cLabel for="exampleFormControlTextarea1">Description</label>
+                    <textarea [(ngModel)]="editFrom.desc"
+                    [ngModelOptions]="{standalone: true}"
+                     cFormControl id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                </form>
+
+          </div>
+      </c-modal-body>
+      <c-modal-footer>
+        <button [cModalToggle]="editModel.id" cButton color="secondary">
+          Close
+        </button>
+        <button [cModalToggle]="editModel.id" cButton color="primary"  (click)="onEditSubmit()">Submit</button>
+      </c-modal-footer>
+    </c-modal>
+
+
+</div>
+
+
+<!-- add status -->
+
+<div class="status-model">
+
+  <c-modal #addStatusModel backdrop="static" id="addStatusModel">
+      <c-modal-header>
+        <h5 cModalTitle>Add status</h5>
+        <button [cModalToggle]="addStatusModel.id" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>
+          <div class="form">
+              <form cForm>
+                  <div class="mb-3">
+                    <label cLabel for="statusForm">status name</label>
+                    <input [(ngModel)]="addForm.name"
+                    [ngModelOptions]="{standalone: true}"
+                     cFormControl
+                           id="statusForm"
+                           placeholder="status name"
+                           type="text"
+
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label cLabel for="exampleFormControlTextarea1">Description</label>
+                    <textarea [(ngModel)]="addForm.desc"
+                    [ngModelOptions]="{standalone: true}"
+                     cFormControl id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                </form>
+
+          </div>
+      </c-modal-body>
+      <c-modal-footer>
+        <button [cModalToggle]="addStatusModel.id" cButton color="secondary">
+          Close
+        </button>
+        <button [cModalToggle]="addStatusModel.id" cButton color="primary"  (click)="onSubmit('status')">Submit</button>
+      </c-modal-footer>
+    </c-modal>
 
 
 </div>

@@ -62,9 +62,9 @@ export class OrdersComponent implements OnInit {
   }
 
   onsubmit() {
-    // console.log(this.status_value);
-    this.api.put(`put_orders_status/${this.order_id}.${this.status_value}`, this.status_value).subscribe((res: any) => {
-      // console.log(res);
+    console.log(this.status_value);
+    this.api.put(`put_orders_status/${this.order_id}=${this.status_value}`, this.status_value).subscribe((res: any) => {
+      console.log(res);
       this.get_orders()
     })
 
