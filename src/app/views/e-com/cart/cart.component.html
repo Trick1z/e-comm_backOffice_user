@@ -76,7 +76,7 @@
     <button [cModalToggle]="BuyModel.id" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <h1>Total Amoung : {{ amount_total }}</h1>
+    <h1>Total Amoung : {{ amount_total | number: '1.0-0' }}</h1>
   </c-modal-body>
   <c-modal-footer>
     <button [cModalToggle]="BuyModel.id" cButton color="secondary">

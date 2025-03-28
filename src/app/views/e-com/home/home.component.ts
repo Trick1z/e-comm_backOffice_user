@@ -138,6 +138,7 @@ export class HomeComponent implements OnInit {
   value: number = 1
   max_value: number = 0
   log(item: any) {
+    this.value = 1
     this.cart = item
     this.max_value = item.stock_quantity
     // console.log(this.cart);
@@ -149,18 +150,18 @@ export class HomeComponent implements OnInit {
     var userID = body.user_id
 
 
-    // get cart id form user id 
+    // get cart id form user id
     this.api.get(`get_cart/${userID}`).subscribe((res: any) => {
       this.cart.cart_id = res.msg.data[0].cart_id
       this.cart.quantity = this.value
       // console.log('cart:' , this.cart);
-      
+
       // console.log(res);
-      
+
 
       this.api.post('cart_post.cartItem',this.cart).subscribe((res2:any) =>{
         // console.log(res2);
-        
+
       })
     })
 
