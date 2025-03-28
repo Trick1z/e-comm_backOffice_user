@@ -34,7 +34,7 @@
           <tr *ngFor="let item of order_item; let i = index">
             <td>{{ i + 1 }}</td>
             <td>Order {{ i + 1 }}</td>
-            <td>total : {{ item.total_amount }}</td>
+            <td>total : {{ item.total_amount | number: '1.0-0' }}</td>
             <td>status : {{ item.status_name }}</td>
             <td>
               <!-- <button
@@ -46,7 +46,23 @@
               >
                 Info
               </button> -->
-              <button cButton color="danger" style="margin: 0 20px">
+              <button
+                [cModalToggle]="infoModal.id"
+                (click)="getOrdItem(item.order_id)"
+                cButton
+                color="info"
+                style="margin: 0 20px"
+              >
+                info
+              </button>
+
+              <button
+                (click)="cancel(item.order_id, 3)"
+                *ngIf="item.status_name == 'pending'"
+                cButton
+                color="danger"
+                style="margin: 0 20px"
+              >
                 Cancel
               </button>
             </td>
@@ -98,3 +114,57 @@
     </button>
   </c-modal-footer>
 </c-modal> -->
+
+<c-modal #infoModal alignment="center" id="infoModal">
+  <c-modal-header>
+    <h5 cModalTitle>order info</h5>
+    <button [cModalToggle]="infoModal.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        margin: 10px 0;
+      "
+      *ngFor="let item of ord_item; let i = index"
+    >
+      <div class="" style="display: flex; flex-direction: row">
+        <div class="left">
+          <img
+            style="max-width: 4rem; max-height: 6rem"
+            [src]="item.img_url"
+            alt=""
+          />
+        </div>
+
+        <div class="" style="margin-left: 20px">
+          <p style="font-size: 15px; margin: 0">
+            name :{{ item.products_name }}
+          </p>
+          <p style="font-size: 15px; margin: 0">
+            desc :{{ item.products_desc }}
+          </p>
+          <p style="font-size: 15px; margin: 0">price :{{ item.price | number: '1.0-0' }} /p</p>
+        </div>
+      </div>
+
+      <div class="right">
+        <p>qty : {{ item.quantity }}</p>
+        <p>total: {{item.quantity * item.price | number: '1.0-0'}}</p>
+      </div>
+    </div>
+
+
+    <div class="totalprices">
+      <h4>total price : {{this.ord_total_price | number: '1.0-0'}}</h4>
+    </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="infoModal.id" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary">Understood</button>
+  </c-modal-footer>
+</c-modal>

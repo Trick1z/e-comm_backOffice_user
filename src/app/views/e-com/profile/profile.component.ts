@@ -4,69 +4,71 @@ import { AvatarComponent, ButtonDirective, ModalModule } from '@coreui/angular';
 import { cilPlus } from '@coreui/icons';
 import { IconDirective } from '@coreui/icons-angular';
 import { BrowserModule } from '@angular/platform-browser';
-import { ApiService } from '../../../services/api'
+import { ApiService } from '../../../services/api';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { each } from 'lodash-es';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [AvatarComponent, ButtonDirective,
-    IconDirective, CommonModule,
-    NgFor, HttpClientModule,
-    ModalModule],
+  imports: [
+    AvatarComponent,
+    ButtonDirective,
+    IconDirective,
+    CommonModule,
+    NgFor,
+    HttpClientModule,
+    ModalModule,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
-  providers: [ApiService]
+  providers: [ApiService],
 })
 export class ProfileComponent implements OnInit {
   ngOnInit(): void {
-    this.get_detail()
-    this.get_orders()
-    this.get_status()
+    this.get_detail();
+    this.get_orders();
+    this.get_status();
   }
 
-  constructor(
-    private api: ApiService
-  ) { }
+  constructor(private api: ApiService) {}
 
-  data: any = {}
-  icons: any = [cilPlus]
+  data: any = {};
+  icons: any = [cilPlus];
   get_detail() {
-    this.data = JSON.parse(sessionStorage.getItem('body') as string)
-
-
-
+    this.data = JSON.parse(sessionStorage.getItem('body') as string);
   }
 
-
-  order_item: any = []
+  order_item: any = [];
 
   get_orders() {
-    var res = sessionStorage.getItem('body')
+    var res = sessionStorage.getItem('body');
     var body = JSON.parse(res || '{}');
-    var userID = body.user_id
+    var userID = body.user_id;
 
     this.api.get(`get_order_userID/${userID}`).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
 
-      this.order_item = res.data
-
-    })
+      this.order_item = res.data;
+    });
   }
 
-  status_item: Status[] = []
+  status_item: Status[] = [];
   get_status() {
     this.api.get('get.status').subscribe((res: any) => {
-      this.status_item = res.data
-    })
+      this.status_item = res.data;
+    });
   }
 
   dp_status(statusid: number): string | null {
-    const _status = this.status_item.find(item => item.status_id === statusid);
+    const _status = this.status_item.find(
+      (item) => item.status_id === statusid
+    );
     return _status ? _status.status_name : null;
   }
 
-  order_info: order[] = []
+  order_info: order[] = [];
   // get_order_id(order_id: number) {
   //   this.api.get(`get_order_orderID/${order_id}`).subscribe((res: any) => {
   //     this.order_info = res.data
@@ -75,54 +77,97 @@ export class ProfileComponent implements OnInit {
   //   })
   // }
 
-
-  product_item: Product[] = []
-  img_item: ImageData[] = []
+  product_item: Product[] = [];
+  img_item: ImageData[] = [];
   get_product_img_item() {
-    this.get_product__item()
-    this.get_img__item()
-
+    this.get_product__item();
+    this.get_img__item();
   }
 
   get_product__item() {
-    this.product_item = []
+    this.product_item = [];
     for (let p = 0; p < this.order_info.length; p++) {
-      var id = this.order_info[p].products_id
+      var id = this.order_info[p].products_id;
       this.api.get(`get.products/${id}`).subscribe((res: any) => {
-        this.product_item.push(res.data[0])
-      })
+        this.product_item.push(res.data[0]);
+      });
     }
   }
   get_img__item() {
-    this.img_item = []
+    this.img_item = [];
     for (let img = 0; img < this.order_info.length; img++) {
-      var id = this.order_info[img].products_id
+      var id = this.order_info[img].products_id;
       this.api.get(`get_this_img/${id}`).subscribe((res: any) => {
-        this.img_item.push(res.data[0])
-      })
+        this.img_item.push(res.data[0]);
+      });
     }
   }
 
   dp_img(products_id: number): string | null {
-    const img = this.img_item.find(item => item.products_id === products_id);
+    const img = this.img_item.find((item) => item.products_id === products_id);
     return img ? img.img_url : null;
   }
 
   order(products_id: number): number | null {
-    const qu = this.order_info.find(item => item.products_id === products_id);
+    const qu = this.order_info.find((item) => item.products_id === products_id);
     return qu ? qu.quantity : null;
   }
 
+  cancel(o_id: number, statusID: number) {
+    // console.log(o_id, statusID);
 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'do you want to cancel this order?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.api
+          .put(`put_orders_status/${o_id}=${statusID}`, 'temp')
+          .subscribe((res) => {});
+
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: 'Your Order has been Canceled.',
+          title: 'Canceled!',
+
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  }
+
+  ord_item: any = [];
+  ord_total_price :number = 0
+  getOrdItem(id: number) {
+    /* The `ord_total_price` variable in the `ProfileComponent` class is used to keep track of the
+    total price of the items in an order. */
+    this.ord_total_price =0
+    this.api.get(`orders.item/ref=${id}`).subscribe((res) => {
+      this.ord_item = res.data;
+
+
+      // console.log(this.ord_item);
+
+
+      this.ord_item.forEach((item: { quantity: number; price: number }) => {
+        this.ord_total_price += item.quantity * item.price;
+        // console.log(`Total Price: ${this.ord_total_price} , (Current Item: ${item.quantity * item.price})`);
+      });
+
+    });
+  }
 }
 
-
-
-
-
 interface Status {
-  status_id: number
-  status_name: string
+  status_id: number;
+  status_name: string;
 }
 
 interface Product {
@@ -141,15 +186,12 @@ interface ImageData {
 }
 
 interface order {
-
-    order_item_id:number
-    order_id: number
-    products_id: number
-    quantity: number
-    price: number
-    del_frag: string
-    create_date: string
-    update_date: string
-
+  order_item_id: number;
+  order_id: number;
+  products_id: number;
+  quantity: number;
+  price: number;
+  del_frag: string;
+  create_date: string;
+  update_date: string;
 }
-
